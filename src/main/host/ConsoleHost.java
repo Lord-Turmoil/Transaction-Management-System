@@ -1,9 +1,7 @@
 /*******************************************************************************
  * Copyright (C) 2023 Tony Skywalker. All Rights Reserved
- *
  *    Filename: ConsoleHost.java
- *
- * Last Update: 7/24/23, 4:55 PM
+ * Last Update: 7/24/23, 4:56 PM
  */
 
 package host;

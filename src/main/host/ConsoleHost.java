@@ -23,16 +23,20 @@ public class ConsoleHost {
     private final ICommandParser parser;
     private final IExecutableProvider provider;
     private final Logger logger;
+    private final boolean interactive;
 
     ConsoleHost(InputStream input,
                 PrintStream output,
                 ICommandParser parser,
-                IExecutableProvider provider, Logger logger) {
+                IExecutableProvider provider,
+                Logger logger,
+                boolean interactive) {
         this.scanner = new Scanner(input);
         this.printer = output;
         this.parser = parser;
         this.provider = provider;
         this.logger = logger;
+        this.interactive = interactive;
     }
 
     public void run() {
@@ -41,9 +45,21 @@ public class ConsoleHost {
             return;
         }
 
+        if (interactive) {
+            printer.println("Welcome to Transaction Management System!");
+        }
+
+        if (interactive) {
+            printer.print(" > ");
+            printer.flush();
+        }
         while (scanner.hasNextLine()) {
             var args = parser.Parse(scanner.nextLine());
             if (args.isEmpty()) {
+                if (interactive) {
+                    printer.print(" > ");
+                    printer.flush();
+                }
                 continue;
             }
 
@@ -67,6 +83,11 @@ public class ConsoleHost {
                 if (logger != null) {
                     logger.log(Level.SEVERE, e.getMessage(), e);
                 }
+            }
+
+            if (interactive) {
+                printer.print(" > ");
+                printer.flush();
             }
         }
     }

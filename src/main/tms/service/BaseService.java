@@ -11,16 +11,19 @@ import tms.model.entity.LoginStatus;
 import tms.model.entity.User;
 import uow.IUnitOfWork;
 
+import java.io.PrintStream;
 import java.util.logging.Logger;
 
 public class BaseService implements IService {
     protected IContainer container;
     protected IUnitOfWork unitOfWork;
     protected Logger logger;
+    protected PrintStream printer;
 
-    public BaseService(IContainer container, IUnitOfWork unitOfWork, Logger logger) {
+    public BaseService(IContainer container, IUnitOfWork unitOfWork, PrintStream printer, Logger logger) {
         this.container = container;
         this.unitOfWork = unitOfWork;
+        this.printer = printer;
         this.logger = logger;
     }
 
@@ -34,5 +37,9 @@ public class BaseService implements IService {
 
     public void setCurrentUser(User user) {
         getLoginStatus().setUser(user);
+    }
+
+    public boolean isLoggedIn() {
+        return getCurrentUser() != null;
     }
 }

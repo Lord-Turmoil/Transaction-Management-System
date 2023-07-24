@@ -20,6 +20,7 @@ public class ConsoleHostBuilder {
     private ICommandParser parser = new DefaultCommandParser();
     private InputStream input = System.in;
     private PrintStream output = System.out;
+    private boolean interactive = false;
 
     public ConsoleHostBuilder setProvider(IExecutableProvider provider) {
         this.provider = provider;
@@ -46,7 +47,12 @@ public class ConsoleHostBuilder {
         return this;
     }
 
+    public ConsoleHostBuilder setInteractive(boolean interactive) {
+        this.interactive = interactive;
+        return this;
+    }
+
     public ConsoleHost build() {
-        return new ConsoleHost(input, output, parser, provider, logger);
+        return new ConsoleHost(input, output, parser, provider, logger, interactive);
     }
 }

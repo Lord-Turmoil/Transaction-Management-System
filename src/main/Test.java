@@ -8,6 +8,8 @@ import host.ConsoleHost;
 import host.ConsoleHostBuilder;
 import ioc.Container;
 import tms.Startup;
+import tms.cmd.CommandHost;
+import tms.cmd.CommandProvider;
 import tms.model.TMSContext;
 import tms.model.entity.LoginStatus;
 import tms.model.entity.User;
@@ -15,15 +17,27 @@ import tms.model.repo.UserRepository;
 import uow.IUnitOfWork;
 import uow.UnitOfWork;
 
+import java.io.PrintStream;
 import java.util.logging.Logger;
 
 public class Test {
     public static void main(String[] args) {
         new Startup(Container.getGlobal()).configure(container -> {
-            // logger and console
+            // logger & printer
             var logger = Logger.getGlobal();
             container.register(Logger.class, logger);
-            container.register(ConsoleHost.class, new ConsoleHostBuilder().setLogger(logger).build());
+            var printer = System.out;
+            container.register(PrintStream.class, printer);
+            // command provider
+            var provider = new CommandProvider(container);
+            CommandHost.registerAll(provider);
+            // console
+            var builder = new ConsoleHostBuilder()
+                    .setProvider(provider)
+                    .setOutput(printer)
+                    .setLogger(logger)
+                    .setInteractive(true);
+            container.register(ConsoleHost.class, builder.build());
         }).configure(container -> {
             // database context
             var context = new TMSContext();

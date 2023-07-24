@@ -13,6 +13,7 @@ import tms.service.BaseService;
 import tms.service.IService;
 import uow.IUnitOfWork;
 
+import java.io.PrintStream;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Dictionary;
 import java.util.Hashtable;
@@ -50,10 +51,11 @@ public class CommandProvider implements IExecutableProvider {
 
     private BaseService resolveService(Class<? extends BaseService> cls) {
         var unitOfWork = container.resolveRequired(IUnitOfWork.class);
+        var printer = container.resolve(PrintStream.class);
         var logger = container.resolve(Logger.class);
         try {
-            var ctor = cls.getConstructor(IContainer.class, IUnitOfWork.class, Logger.class);
-            return ctor.newInstance(container, unitOfWork, logger);
+            var ctor = cls.getConstructor(IContainer.class, IUnitOfWork.class, PrintStream.class, Logger.class);
+            return ctor.newInstance(container, unitOfWork, printer, logger);
         } catch (NoSuchMethodException e) {
             throw new RuntimeException("Service constructor error");
         } catch (InstantiationException | InvocationTargetException | IllegalAccessException e) {
@@ -64,8 +66,8 @@ public class CommandProvider implements IExecutableProvider {
     private BaseCommand resolveExecutable(Class<? extends BaseCommand> cls, BaseService service) {
         var logger = container.resolve(Logger.class);
         try {
-            var ctor = cls.getConstructor(IContainer.class, IService.class, Logger.class);
-            return ctor.newInstance(container, service, logger);
+            var ctor = cls.getConstructor(IService.class, IContainer.class, Logger.class);
+            return ctor.newInstance(service, container, logger);
         } catch (NoSuchMethodException e) {
             throw new RuntimeException("Command constructor error");
         } catch (InstantiationException | InvocationTargetException | IllegalAccessException e) {

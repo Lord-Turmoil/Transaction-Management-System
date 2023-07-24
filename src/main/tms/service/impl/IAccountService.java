@@ -7,10 +7,11 @@
 package tms.service.impl;
 
 import host.exec.ExecutionException;
+import tms.service.IService;
 
 import java.util.List;
 
-public interface IAccountService {
+public interface IAccountService extends IService {
     void register(List<String> args) throws ExecutionException;
 
     void login(List<String> args) throws ExecutionException;

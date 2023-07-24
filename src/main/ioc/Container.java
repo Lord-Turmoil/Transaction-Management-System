@@ -8,11 +8,12 @@ package ioc;
 
 import java.util.Dictionary;
 import java.util.Hashtable;
+import java.util.function.Supplier;
 
 public class Container implements IContainer {
     private static Container globalContainer = null;
 
-    private Dictionary<Class<?>, Object> pool = new Hashtable<>();
+    private Dictionary<Class<?>, Item> pool = new Hashtable<>();
 
     public static Container getGlobal() {
         if (globalContainer == null) {
@@ -25,9 +26,21 @@ public class Container implements IContainer {
      * Will overwrite old value.
      */
     @Override
-    public IContainer register(Class<?> cls, Object instance) {
-        pool.put(cls, instance);
+    public IContainer addSingleton(Class<?> cls, Object instance) {
+        pool.put(cls, new Item(true, instance, null));
         return this;
+    }
+
+    @Override
+    public IContainer addSingleton(Class<?> cls, Supplier<?> supplier) {
+        pool.put(cls, new Item(true, null, supplier));
+        return null;
+    }
+
+    @Override
+    public IContainer addTransient(Class<?> cls, Supplier<?> supplier) {
+        pool.put(cls, new Item(false, null, supplier));
+        return null;
     }
 
     @Override
@@ -37,8 +50,20 @@ public class Container implements IContainer {
 
     @Override
     public <T> T mapResolve(Class<?> cls) {
+        var item = pool.get(cls);
+        if (item == null) {
+            return null;
+        }
+
         try {
-            return (T) pool.get(cls);
+            if (item.isSingleton) {
+                if (item.instance == null) {
+                    item.instance = item.supplier.get();
+                }
+                return (T) item.instance;
+            } else {
+                return (T) item.supplier.get();
+            }
         } catch (ClassCastException e) {
             return null;
         }
@@ -51,16 +76,22 @@ public class Container implements IContainer {
 
     @Override
     public <T> T mapResolveRequired(Class<?> cls) {
-        try {
-            var instance = (T) pool.get(cls);
-            if (instance == null) {
-                throw new NoSuchItemException();
-            }
-            return instance;
-        } catch (ClassCastException e) {
-            throw new NoSuchItemException("Type mismatch", e);
-        } catch (NoSuchItemException e) {
-            throw e;
+        var obj = this.<T>mapResolve(cls);
+        if (obj == null) {
+            throw new NoSuchItemException(cls + " not registered");
+        }
+        return obj;
+    }
+
+    private static class Item {
+        public final boolean isSingleton;
+        public Object instance;
+        public final Supplier<?> supplier;
+
+        public Item(boolean isSingleton, Object instance, Supplier<?> supplier) {
+            this.isSingleton = isSingleton;
+            this.instance = instance;
+            this.supplier = supplier;
         }
     }
 }

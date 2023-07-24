@@ -9,6 +9,14 @@ package tms.shared;
 public class Errors {
     public static final String IllegalArgumentCount = "Illegal argument count";
     public static final String AlreadyLoggedIn = "Already logged in";
+
     public static final String IllegalId = "Illegal Kakafee number";
     public static final String DuplicatedId = "Kakafee number exists";
+
+    public static final String IllegalName = "Illegal name";
+
+    public static final String IllegalPassword = "Illegal password";
+    public static final String PasswordInconsistent = "Passwords do not match";
+
+    public static final String IllegalIdentity = "Illegal identity";
 }

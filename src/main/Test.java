@@ -14,6 +14,7 @@ import tms.model.TMSContext;
 import tms.model.entity.LoginStatus;
 import tms.model.entity.User;
 import tms.model.repo.UserRepository;
+import tms.service.ServiceHost;
 import uow.IUnitOfWork;
 import uow.UnitOfWork;
 
@@ -25,9 +26,9 @@ public class Test {
         new Startup(Container.getGlobal()).configure(container -> {
             // logger & printer
             var logger = Logger.getGlobal();
-            container.register(Logger.class, logger);
+            container.addSingleton(Logger.class, logger);
             var printer = System.out;
-            container.register(PrintStream.class, printer);
+            container.addSingleton(PrintStream.class, printer);
             // command provider
             var provider = new CommandProvider(container);
             CommandHost.registerAll(provider);
@@ -37,20 +38,20 @@ public class Test {
                     .setOutput(printer)
                     .setLogger(logger)
                     .setInteractive(true);
-            container.register(ConsoleHost.class, builder.build());
+            container.addSingleton(ConsoleHost.class, builder.build());
         }).configure(container -> {
             // database context
             var context = new TMSContext();
-            container.register(TMSContext.class, context);
+            container.addSingleton(TMSContext.class, context);
             // unit of work
-            container.register(IUnitOfWork.class, new UnitOfWork(container));
+            container.addSingleton(IUnitOfWork.class, new UnitOfWork(container));
             // repository
-            container.register(User.class, new UserRepository(context));
-        }).configure(container -> {
-            // services
+            container.addSingleton(User.class, new UserRepository(context));
+            // Service (after unit of work)
+            ServiceHost.registerAll(container);
         }).configure(container -> {
             // else
-            container.register(LoginStatus.class, new LoginStatus());
+            container.addSingleton(LoginStatus.class, new LoginStatus());
         }).run();
     }
 }

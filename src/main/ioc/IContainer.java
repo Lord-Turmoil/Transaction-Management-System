@@ -6,8 +6,13 @@
 
 package ioc;
 
+import java.util.function.Supplier;
+
 public interface IContainer {
-    IContainer register(Class<?> cls, Object instance);
+    IContainer addSingleton(Class<?> cls, Object instance);
+    IContainer addSingleton(Class<?> cls, Supplier<?> supplier);
+
+    IContainer addTransient(Class<?> cls, Supplier<?> supplier);
 
     <T> T resolve(Class<T> cls);
 

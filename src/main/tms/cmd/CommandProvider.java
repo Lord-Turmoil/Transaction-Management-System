@@ -35,8 +35,8 @@ public class CommandProvider implements IExecutableProvider {
         return this;
     }
 
-    public CommandProvider register(String name, Class<? extends BaseCommand> executableClass, Class<? extends BaseService> serviceClass) {
-        return register(name, new CommandArg(executableClass, serviceClass));
+    public CommandProvider register(String name, Class<? extends BaseCommand> executableClass, Class<? extends IService> serviceInterface) {
+        return register(name, new CommandArg(executableClass, serviceInterface));
     }
 
     @Override
@@ -45,28 +45,32 @@ public class CommandProvider implements IExecutableProvider {
         if (arg == null) {
             return null;
         }
-
-        return resolveExecutable(arg.executableClass, resolveService(arg.serviceClass));
+        return resolveExecutable(arg.executableClass, arg);
     }
 
-    private BaseService resolveService(Class<? extends BaseService> cls) {
+    private BaseService resolveService(Class<? extends IService> cls) {
         var unitOfWork = container.resolveRequired(IUnitOfWork.class);
         var printer = container.resolve(PrintStream.class);
         var logger = container.resolve(Logger.class);
         try {
-            var ctor = cls.getConstructor(IContainer.class, IUnitOfWork.class, PrintStream.class, Logger.class);
-            return ctor.newInstance(container, unitOfWork, printer, logger);
-        } catch (NoSuchMethodException e) {
-            throw new RuntimeException("Service constructor error");
+            var serviceClass = (Class<?>)container.mapResolveRequired(cls);
+            var ctor = serviceClass.getConstructor(IContainer.class, IUnitOfWork.class, PrintStream.class, Logger.class);
+            return (BaseService) ctor.newInstance(container, unitOfWork, printer, logger);
+        } catch (ClassCastException e) {
+            throw new RuntimeException("Service type error", e);
+        }
+        catch (NoSuchMethodException e) {
+            throw new RuntimeException("Service constructor error", e);
         } catch (InstantiationException | InvocationTargetException | IllegalAccessException e) {
-            throw new RuntimeException("Failed to instantiate " + cls);
+            throw new RuntimeException("Failed to instantiate " + cls, e);
         }
     }
 
-    private BaseCommand resolveExecutable(Class<? extends BaseCommand> cls, BaseService service) {
+    private BaseCommand resolveExecutable(Class<? extends BaseCommand> cls, CommandArg arg) {
+        var service = resolveService(arg.serviceInterface);
         var logger = container.resolve(Logger.class);
         try {
-            var ctor = cls.getConstructor(IService.class, IContainer.class, Logger.class);
+            var ctor = cls.getConstructor(arg.serviceInterface, IContainer.class, Logger.class);
             return ctor.newInstance(service, container, logger);
         } catch (NoSuchMethodException e) {
             throw new RuntimeException("Command constructor error");
@@ -77,11 +81,11 @@ public class CommandProvider implements IExecutableProvider {
 
     static class CommandArg {
         public Class<? extends BaseCommand> executableClass;
-        public Class<? extends BaseService> serviceClass;
+        public Class<? extends IService> serviceInterface;
 
-        public CommandArg(Class<? extends BaseCommand> executableClass, Class<? extends BaseService> serviceClass) {
+        public CommandArg(Class<? extends BaseCommand> executableClass, Class<? extends IService> serviceInterface) {
             this.executableClass = executableClass;
-            this.serviceClass = serviceClass;
+            this.serviceInterface = serviceInterface;
         }
     }
 }

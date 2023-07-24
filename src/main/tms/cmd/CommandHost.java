@@ -11,13 +11,14 @@ import tms.cmd.impl.ExitCommand;
 import tms.cmd.impl.RegisterCommand;
 import tms.service.impl.AccountService;
 import tms.service.impl.ExitService;
+import tms.service.impl.IExitService;
 
 /**
  * To register all classes.
  */
 public class CommandHost {
     public static void registerAll(CommandProvider provider) {
-        provider.register("exit", ExitCommand.class, ExitService.class);
-        provider.register("register", RegisterCommand.class, AccountService.class);
+        provider.register("exit", ExitCommand.class, IExitService.class);
+        provider.register("register", RegisterCommand.class, IExitService.class);
     }
 }

@@ -19,8 +19,8 @@ import java.util.logging.Logger;
 public class RegisterCommand extends BaseCommand {
     private final IAccountService service;
 
-    public RegisterCommand(IAccountService service, IContainer container, Logger logger) {
-        super(container, logger);
+    public RegisterCommand(IAccountService service, IContainer container) {
+        super(container);
         this.service = service;
     }
 

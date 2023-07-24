@@ -20,8 +20,8 @@ import java.util.Hashtable;
 import java.util.logging.Logger;
 
 public class CommandProvider implements IExecutableProvider {
-    private IContainer container;
-    private Dictionary<String, CommandArg> pool = new Hashtable<>();
+    private final IContainer container;
+    private final Dictionary<String, CommandArg> pool = new Hashtable<>();
 
     public CommandProvider(IContainer container) {
         if (container == null) {
@@ -49,13 +49,10 @@ public class CommandProvider implements IExecutableProvider {
     }
 
     private BaseService resolveService(Class<? extends IService> cls) {
-        var unitOfWork = container.resolveRequired(IUnitOfWork.class);
-        var printer = container.resolve(PrintStream.class);
-        var logger = container.resolve(Logger.class);
         try {
             var serviceClass = (Class<?>)container.mapResolveRequired(cls);
-            var ctor = serviceClass.getConstructor(IContainer.class, IUnitOfWork.class, PrintStream.class, Logger.class);
-            return (BaseService) ctor.newInstance(container, unitOfWork, printer, logger);
+            var ctor = serviceClass.getConstructor(IContainer.class);
+            return (BaseService) ctor.newInstance(container);
         } catch (ClassCastException e) {
             throw new RuntimeException("Service type error", e);
         }
@@ -68,10 +65,9 @@ public class CommandProvider implements IExecutableProvider {
 
     private BaseCommand resolveExecutable(Class<? extends BaseCommand> cls, CommandArg arg) {
         var service = resolveService(arg.serviceInterface);
-        var logger = container.resolve(Logger.class);
         try {
-            var ctor = cls.getConstructor(arg.serviceInterface, IContainer.class, Logger.class);
-            return ctor.newInstance(service, container, logger);
+            var ctor = cls.getConstructor(arg.serviceInterface, IContainer.class);
+            return ctor.newInstance(service, container);
         } catch (NoSuchMethodException e) {
             throw new RuntimeException("Command constructor error");
         } catch (InstantiationException | InvocationTargetException | IllegalAccessException e) {

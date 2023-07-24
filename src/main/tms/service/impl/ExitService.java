@@ -17,8 +17,8 @@ import java.util.List;
 import java.util.logging.Logger;
 
 public class ExitService extends BaseService implements IExitService {
-    public ExitService(IContainer container, IUnitOfWork unitOfWork, PrintStream printer, Logger logger) {
-        super(container, unitOfWork, printer, logger);
+    public ExitService(IContainer container) {
+        super(container);
     }
 
     @Override

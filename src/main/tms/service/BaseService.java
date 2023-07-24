@@ -20,11 +20,11 @@ public class BaseService implements IService {
     protected Logger logger;
     protected PrintStream printer;
 
-    public BaseService(IContainer container, IUnitOfWork unitOfWork, PrintStream printer, Logger logger) {
+    public BaseService(IContainer container) {
         this.container = container;
-        this.unitOfWork = unitOfWork;
-        this.printer = printer;
-        this.logger = logger;
+        this.unitOfWork = container.resolveRequired(IUnitOfWork.class);
+        this.printer = container.resolveRequired(PrintStream.class);
+        this.logger = container.resolve(Logger.class);
     }
 
     public LoginStatus getLoginStatus() {

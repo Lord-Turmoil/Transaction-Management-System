@@ -22,8 +22,8 @@ import java.util.List;
 import java.util.logging.Logger;
 
 public class AccountService extends BaseService implements IAccountService {
-    public AccountService(IContainer container, IUnitOfWork unitOfWork, PrintStream printer, Logger logger) {
-        super(container, unitOfWork, printer, logger);
+    public AccountService(IContainer container) {
+        super(container);
     }
 
     @Override
@@ -36,7 +36,7 @@ public class AccountService extends BaseService implements IAccountService {
         }
 
         var user = new User();
-        var id = args.get(1);
+        var id = args.get(0);
         if (!new IdValidator().check(id)) {
             throw new ExecutionException(Errors.IllegalId);
         }
@@ -46,14 +46,12 @@ public class AccountService extends BaseService implements IAccountService {
         }
         user.Id = id;
 
-        // username
-        var name = args.get(0);
+        var name = args.get(1);
         if (!new NameValidator().check(name)) {
             throw new ExecutionException(Errors.IllegalName);
         }
         user.Name = name;
 
-        // password
         var password = args.get(2);
         if (!new PasswordValidator().check(password)) {
             throw new ExecutionException(Errors.IllegalPassword);
@@ -64,7 +62,6 @@ public class AccountService extends BaseService implements IAccountService {
         }
         user.Password = password;
 
-        // identity
         var type = args.get(4);
         user.Role = switch (type) {
             case "Administrator" -> Role.Administrator;

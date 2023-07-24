@@ -18,8 +18,8 @@ import java.util.logging.Logger;
 public class ExitCommand extends BaseCommand {
     private final IExitService service;
 
-    public ExitCommand(IExitService service, IContainer container, Logger logger) {
-        super(container, logger);
+    public ExitCommand(IExitService service, IContainer container) {
+        super(container);
         this.service = service;
     }
 

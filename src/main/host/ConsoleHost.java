@@ -1,40 +1,40 @@
-package tms.host;
+package host;
 
-import tms.host.exec.ExecutionException;
-import tms.host.exec.IExecutableProvider;
-import tms.host.exec.TerminationException;
-import tms.host.parser.DefaultCommandParser;
-import tms.host.parser.ICommandParser;
+import host.exec.ExecutionException;
+import host.exec.IExecutableProvider;
+import host.exec.TerminationException;
+import host.parser.ICommandParser;
 
 import java.io.InputStream;
 import java.io.PrintStream;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ConsoleHost {
     private final Scanner scanner;
     private final PrintStream printer;
     private final ICommandParser parser;
     private final IExecutableProvider provider;
+    private final Logger logger;
 
-    public ConsoleHost(IExecutableProvider provider) {
-        this(new DefaultCommandParser(), provider);
-    }
-
-    public ConsoleHost(ICommandParser parser, IExecutableProvider provider) {
-        this(System.in, System.out, parser, provider);
-    }
-
-    public ConsoleHost(InputStream input,
+    ConsoleHost(InputStream input,
                        PrintStream output,
                        ICommandParser parser,
-                       IExecutableProvider provider) {
+                       IExecutableProvider provider, Logger logger) {
         this.scanner = new Scanner(input);
         this.printer = output;
         this.parser = parser;
         this.provider = provider;
+        this.logger = logger;
     }
 
     public void run() {
+        if (provider == null) {
+            logger.severe("Missing executable provider");
+            return;
+        }
+
         while (scanner.hasNextLine()) {
             var args = parser.Parse(scanner.nextLine());
             if (args.isEmpty()) {
@@ -43,12 +43,21 @@ public class ConsoleHost {
 
             try {
                 var executable = provider.resolve(args.get(0));
+                if (logger != null) {
+                    logger.log(Level.INFO, args.get(0), args);
+                }
                 args.remove(0);
                 executable.execute(args);
             } catch (TerminationException e) {
+                if (logger != null) {
+                    logger.log(Level.WARNING, e.getMessage(), e);
+                }
                 return;
             } catch (ExecutionException e) {
                 printer.println(e.getMessage());
+                if (logger != null) {
+                    logger.log(Level.SEVERE, e.getMessage(), e);
+                }
             }
         }
     }

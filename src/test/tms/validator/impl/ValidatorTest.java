@@ -10,9 +10,9 @@ package tms.validator.impl;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class IdValidatorTest {
+public class ValidatorTest {
     @Test
-    public void validateTest() {
+    public void idValidatorTest() {
         var validator = new IdValidator();
         var good = new String[]{
                 "007517901234",
@@ -29,6 +29,28 @@ public class IdValidatorTest {
         }
         for (var id : bad) {
             Assert.assertEquals(false, validator.check(id));
+        }
+    }
+
+    @Test
+    public void passwordValidatorTest() {
+        var validator = new PasswordValidator();
+        var good = new String[]{
+                "a256@buq",
+                "hp1o_sdf",
+                "Z568a9$73",
+        };
+        var bad = new String[]{
+                "896qou",
+                "a*afjsd12",
+                "123456a_",
+        };
+
+        for (var password : good) {
+            Assert.assertEquals(true, validator.check(password));
+        }
+        for (var password : bad) {
+            Assert.assertEquals(false, validator.check(password));
         }
     }
 }

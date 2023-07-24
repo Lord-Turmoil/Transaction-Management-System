@@ -1,3 +1,11 @@
+/*******************************************************************************
+ * Copyright (C) 2023 Tony Skywalker. All Rights Reserved
+ *
+ *    Filename: CommandProvider.java
+ *
+ * Last Update: 7/24/23, 4:55 PM
+ */
+
 package tms.cmd;
 
 import host.exec.IExecutable;
@@ -13,19 +21,8 @@ import java.util.Hashtable;
 import java.util.logging.Logger;
 
 public class CommandProvider implements IExecutableProvider {
-    static class CommandArg {
-        public Class<? extends BaseCommand> executableClass;
-        public Class<? extends BaseService> serviceClass;
-
-        public CommandArg(Class<? extends BaseCommand> executableClass, Class<? extends BaseService> serviceClass) {
-            this.executableClass = executableClass;
-            this.serviceClass = serviceClass;
-        }
-    }
-
     private IContainer container;
     private Dictionary<String, CommandArg> pool = new Hashtable<>();
-
     public CommandProvider(IContainer container) {
         if (container == null) {
             throw new NullPointerException("Missing container");
@@ -63,6 +60,16 @@ public class CommandProvider implements IExecutableProvider {
             return cmdCtor.newInstance(service, logger);
         } catch (InstantiationException | InvocationTargetException | IllegalAccessException e) {
             throw new RuntimeException("Failed to instantiate " + name);
+        }
+    }
+
+    static class CommandArg {
+        public Class<? extends BaseCommand> executableClass;
+        public Class<? extends BaseService> serviceClass;
+
+        public CommandArg(Class<? extends BaseCommand> executableClass, Class<? extends BaseService> serviceClass) {
+            this.executableClass = executableClass;
+            this.serviceClass = serviceClass;
         }
     }
 }

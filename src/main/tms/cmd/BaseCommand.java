@@ -1,10 +1,15 @@
+/*******************************************************************************
+ * Copyright (C) 2023 Tony Skywalker. All Rights Reserved
+ *
+ *    Filename: BaseCommand.java
+ *
+ * Last Update: 7/24/23, 4:53 PM
+ */
+
 package tms.cmd;
 
-import host.exec.ExecutionException;
 import host.exec.IExecutable;
-import host.exec.TerminationException;
 
-import java.util.List;
 import java.util.logging.Logger;
 
 public abstract class BaseCommand implements IExecutable {

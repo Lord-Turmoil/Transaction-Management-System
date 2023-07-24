@@ -1,3 +1,11 @@
+/*******************************************************************************
+ * Copyright (C) 2023 Tony Skywalker. All Rights Reserved
+ *
+ *    Filename: Repository.java
+ *
+ * Last Update: 7/24/23, 4:55 PM
+ */
+
 package uow;
 
 import uow.exception.NoSuchDbSetException;
@@ -6,7 +14,6 @@ import uow.exception.NoSuchEntityException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 public class Repository<TEntity> implements IRepository<TEntity> {
     private DbSet<TEntity> dbSet;

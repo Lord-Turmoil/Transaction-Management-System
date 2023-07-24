@@ -1,3 +1,11 @@
+/*******************************************************************************
+ * Copyright (C) 2023 Tony Skywalker. All Rights Reserved
+ *
+ *    Filename: ConsoleHost.java
+ *
+ * Last Update: 7/24/23, 4:55 PM
+ */
+
 package host;
 
 import host.exec.ExecutionException;
@@ -19,9 +27,9 @@ public class ConsoleHost {
     private final Logger logger;
 
     ConsoleHost(InputStream input,
-                       PrintStream output,
-                       ICommandParser parser,
-                       IExecutableProvider provider, Logger logger) {
+                PrintStream output,
+                ICommandParser parser,
+                IExecutableProvider provider, Logger logger) {
         this.scanner = new Scanner(input);
         this.printer = output;
         this.parser = parser;

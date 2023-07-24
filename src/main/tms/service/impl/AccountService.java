@@ -1,13 +1,12 @@
 /*******************************************************************************
  * Copyright (C) 2023 Tony Skywalker. All Rights Reserved
  *
- *    Filename: IValidator.java
+ *    Filename: AccountService.java
  *
- * Last Update: 7/24/23, 3:50 PM
+ * Last Update: 7/24/23, 4:53 PM
  */
 
-package tms.validator;
+package tms.service.impl;
 
-public interface IValidator {
-    boolean check(String value);
+public class AccountService {
 }

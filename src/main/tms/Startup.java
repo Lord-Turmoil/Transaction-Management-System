@@ -1,16 +1,18 @@
+/*******************************************************************************
+ * Copyright (C) 2023 Tony Skywalker. All Rights Reserved
+ *
+ *    Filename: Startup.java
+ *
+ * Last Update: 7/24/23, 4:55 PM
+ */
+
 package tms;
 
 import host.ConsoleHost;
-import host.ConsoleHostBuilder;
 import ioc.Container;
 import ioc.IContainer;
-import tms.model.TMSContext;
-import tms.model.entity.User;
-import tms.model.repo.UserRepository;
 
 import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.logging.Logger;
 
 public class Startup {
     private IContainer container;

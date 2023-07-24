@@ -25,7 +25,7 @@ public class UnitOfWork implements IUnitOfWork {
         var repo = repositories.get(cls);
         if (repo == null) {
             try {
-                repo = container.resolveRequired(cls);
+                repo = container.mapResolveRequired(cls);
             } catch (NoSuchItemException e) {
                 throw new NoSuchRepositoryException("Missing " + cls, e);
             }

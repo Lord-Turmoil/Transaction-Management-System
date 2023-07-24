@@ -40,7 +40,7 @@ public class ConsoleHostBuilder {
         return this;
     }
 
-    public ConsoleHost createConsoleHost() {
+    public ConsoleHost build() {
         return new ConsoleHost(input, output, parser, provider, logger);
     }
 }

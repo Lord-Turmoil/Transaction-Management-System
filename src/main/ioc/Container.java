@@ -1,7 +1,6 @@
 package ioc;
 
 import java.util.Dictionary;
-import java.util.HashMap;
 import java.util.Hashtable;
 
 public class Container implements IContainer {
@@ -26,7 +25,12 @@ public class Container implements IContainer {
     }
 
     @Override
-    public <T> T resolve(Class<?> cls) {
+    public <T> T resolve(Class<T> cls) {
+        return mapResolve(cls);
+    }
+
+    @Override
+    public <T> T mapResolve(Class<?> cls) {
         try {
             return (T) pool.get(cls);
         } catch (ClassCastException e) {
@@ -35,7 +39,12 @@ public class Container implements IContainer {
     }
 
     @Override
-    public <T> T resolveRequired(Class<?> cls) throws NoSuchItemException {
+    public <T> T resolveRequired(Class<T> cls) throws NoSuchItemException {
+        return mapResolveRequired(cls);
+    }
+
+    @Override
+    public <T> T mapResolveRequired(Class<?> cls) {
         try {
             var instance = (T) pool.get(cls);
             if (instance == null) {

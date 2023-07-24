@@ -1,29 +1,29 @@
 /*******************************************************************************
  * Copyright (C) 2023 Tony Skywalker. All Rights Reserved
- *    Filename: LoginCommand.java
- * Last Update: 7/24/23, 8:56 PM
+ *    Filename: PrintInfoCommand.java
+ * Last Update: 7/24/23, 9:51 PM
  */
 
-package tms.cmd.impl;
+package tms.exec.cmd.impl;
 
 import host.exec.ExecutionException;
 import host.exec.TerminationException;
 import ioc.IContainer;
-import tms.cmd.BaseCommand;
-import tms.service.impl.IAccountService;
+import tms.exec.cmd.BaseCommand;
+import tms.exec.service.impl.IAccountService;
 
 import java.util.List;
 
-public class LoginCommand extends BaseCommand {
+public class PrintInfoCommand extends BaseCommand {
     private final IAccountService service;
 
-    public LoginCommand(IAccountService service, IContainer container) {
+    public PrintInfoCommand(IAccountService service, IContainer container) {
         super(container);
         this.service = service;
     }
 
     @Override
     public void execute(List<String> args) throws ExecutionException, TerminationException {
-        service.login(args);
+        service.printInfo(args);
     }
 }

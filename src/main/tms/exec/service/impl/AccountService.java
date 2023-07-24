@@ -1,20 +1,21 @@
 /*******************************************************************************
  * Copyright (C) 2023 Tony Skywalker. All Rights Reserved
  *    Filename: AccountService.java
- * Last Update: 7/24/23, 6:13 PM
+ * Last Update: 7/24/23, 9:14 PM
  */
 
-package tms.service.impl;
+package tms.exec.service.impl;
 
 import host.exec.ExecutionException;
 import ioc.IContainer;
+import tms.exec.service.BaseService;
 import tms.model.entity.Role;
 import tms.model.entity.User;
-import tms.service.BaseService;
 import tms.shared.Errors;
-import tms.validator.impl.IdValidator;
-import tms.validator.impl.NameValidator;
-import tms.validator.impl.PasswordValidator;
+import tms.shared.formatter.impl.UserInfoFormatter;
+import tms.shared.validator.impl.IdValidator;
+import tms.shared.validator.impl.NameValidator;
+import tms.shared.validator.impl.PasswordValidator;
 
 import java.util.List;
 
@@ -115,6 +116,31 @@ public class AccountService extends BaseService implements IAccountService {
 
     @Override
     public void printInfo(List<String> args) throws ExecutionException {
+        if (args.size() > 1) {
+            throw new ExecutionException(Errors.IllegalArgumentCount);
+        }
+        User user = getCurrentUser();
+        if (user == null) {
+            throw new ExecutionException(Errors.NotLoggedIn);
+        }
 
+        User target = null;
+        if (args.size() == 0) {
+            target = user;  // user is not null here
+        } else {
+            if (user.Role != Role.Administrator) {
+                throw new ExecutionException(Errors.PermissionDenied);
+            }
+            var id = args.get(0);
+            if (!new IdValidator().check(id)) {
+                throw new ExecutionException(Errors.IllegalId);
+            }
+            target = unitOfWork.getRepository(User.class).find(x -> x.Id.equals(id));
+            if (target == null) {
+                throw new ExecutionException(Errors.NoSuchUser);
+            }
+        }
+
+        new UserInfoFormatter().format(printer, target);
     }
 }

@@ -9,7 +9,9 @@ package uow;
 import uow.exception.NoSuchEntityException;
 
 import java.util.Collection;
+import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 
 public interface IRepository<TEntity> {
     IRepository<TEntity> add(TEntity entity);
@@ -32,5 +34,4 @@ public interface IRepository<TEntity> {
     Collection<TEntity> findAll();
 
     TEntity get(Predicate<TEntity> predicate) throws NoSuchEntityException;
-
 }

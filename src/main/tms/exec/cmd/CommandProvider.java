@@ -1,16 +1,16 @@
 /*******************************************************************************
  * Copyright (C) 2023 Tony Skywalker. All Rights Reserved
  *    Filename: CommandProvider.java
- * Last Update: 7/24/23, 5:30 PM
+ * Last Update: 7/24/23, 8:53 PM
  */
 
-package tms.cmd;
+package tms.exec.cmd;
 
 import host.exec.IExecutable;
 import host.exec.IExecutableProvider;
 import ioc.IContainer;
-import tms.service.BaseService;
-import tms.service.IService;
+import tms.exec.service.BaseService;
+import tms.exec.service.IService;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Dictionary;

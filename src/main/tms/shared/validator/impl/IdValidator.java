@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (C) 2023 Tony Skywalker. All Rights Reserved
  *    Filename: IdValidator.java
- * Last Update: 7/24/23, 5:36 PM
+ * Last Update: 7/24/23, 6:39 PM
  */
 
-package tms.validator.impl;
+package tms.shared.validator.impl;
 
-import tms.validator.IValidator;
+import tms.shared.validator.IValidator;
 
 public class IdValidator implements IValidator {
     @Override

@@ -23,4 +23,6 @@ public class Errors {
     public static final String WrongPassword = "Wrong password";
 
     public static final String IllegalIdentity = "Illegal identity";
+
+    public static final String PermissionDenied = "Permission denied";
 }

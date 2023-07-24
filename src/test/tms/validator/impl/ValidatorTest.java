@@ -9,6 +9,8 @@ package tms.validator.impl;
 
 import org.junit.Assert;
 import org.junit.Test;
+import tms.shared.validator.impl.IdValidator;
+import tms.shared.validator.impl.PasswordValidator;
 
 public class ValidatorTest {
     @Test

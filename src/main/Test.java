@@ -8,13 +8,13 @@ import host.ConsoleHost;
 import host.ConsoleHostBuilder;
 import ioc.Container;
 import tms.Startup;
-import tms.cmd.CommandHost;
-import tms.cmd.CommandProvider;
+import tms.exec.cmd.CommandHost;
+import tms.exec.cmd.CommandProvider;
 import tms.model.TMSContext;
 import tms.model.entity.LoginStatus;
 import tms.model.entity.User;
 import tms.model.repo.UserRepository;
-import tms.service.ServiceHost;
+import tms.exec.service.ServiceHost;
 import uow.IUnitOfWork;
 import uow.UnitOfWork;
 
@@ -36,7 +36,7 @@ public class Test {
             var builder = new ConsoleHostBuilder()
                     .setProvider(provider)
                     .setOutput(printer)
-                    .setLogger(logger)
+//                    .setLogger(logger)
                     .setInteractive(true);
             container.addSingleton(ConsoleHost.class, builder.build());
         }).configure(container -> {

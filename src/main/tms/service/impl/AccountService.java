@@ -26,7 +26,12 @@ public class AccountService extends BaseService implements IAccountService {
         if (args.size() != 5) {
             throw new ExecutionException(Errors.IllegalArgumentCount);
         }
+        var user = getCurrentUser();
+        if (user != null) {
+            throw new ExecutionException(Errors.AlreadyLoggedIn);
+        }
 
+        // id
     }
 
     @Override

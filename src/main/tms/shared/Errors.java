@@ -8,4 +8,5 @@ package tms.shared;
 
 public class Errors {
     public static final String IllegalArgumentCount = "Illegal argument count";
+    public static final String AlreadyLoggedIn = "Already logged in";
 }

@@ -75,12 +75,42 @@ public class AccountService extends BaseService implements IAccountService {
 
     @Override
     public void login(List<String> args) throws ExecutionException {
+        if (args.size() != 2) {
+            throw new ExecutionException(Errors.IllegalArgumentCount);
+        }
+        if (isLoggedIn()) {
+            throw new ExecutionException(Errors.AlreadyLoggedIn);
+        }
 
+        var id = args.get(0);
+        if (!new IdValidator().check(id)) {
+            throw new ExecutionException(Errors.IllegalId);
+        }
+
+        var user = unitOfWork.getRepository(User.class).find(x -> x.Id.equals(id));
+        if (user == null) {
+            throw new ExecutionException(Errors.NoSuchUser);
+        }
+        var password = args.get(1);
+        if (!user.Password.equals(password)) {
+            throw new ExecutionException(Errors.WrongPassword);
+        }
+
+        setCurrentUser(user);
+        printer.println("Welcome to TMS");
     }
 
     @Override
     public void logout(List<String> args) throws ExecutionException {
+        if (args.size() > 0) {
+            throw new ExecutionException(Errors.IllegalArgumentCount);
+        }
+        if (!isLoggedIn()) {
+            throw new ExecutionException(Errors.NotLoggedIn);
+        }
 
+        setCurrentUser(null);
+        printer.println("Bye~");
     }
 
     @Override

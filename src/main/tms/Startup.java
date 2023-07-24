@@ -10,7 +10,7 @@ import tms.model.repo.UserRepository;
 import java.util.logging.Logger;
 
 public class Startup {
-    public static void configureIoC() {
+    public Startup configure() {
         var container = Container.getGlobal();
 
         // console host
@@ -25,5 +25,11 @@ public class Startup {
 
         // repository
         container.register(User.class, new UserRepository(context));
+
+        return this;
+    }
+
+    public void run() {
+        Container.getGlobal().resolve(ConsoleHost.class).run();
     }
 }

@@ -11,13 +11,10 @@ import host.exec.IExecutableProvider;
 import ioc.IContainer;
 import tms.service.BaseService;
 import tms.service.IService;
-import uow.IUnitOfWork;
 
-import java.io.PrintStream;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Dictionary;
 import java.util.Hashtable;
-import java.util.logging.Logger;
 
 public class CommandProvider implements IExecutableProvider {
     private final IContainer container;
@@ -50,13 +47,12 @@ public class CommandProvider implements IExecutableProvider {
 
     private BaseService resolveService(Class<? extends IService> cls) {
         try {
-            var serviceClass = (Class<?>)container.mapResolveRequired(cls);
+            var serviceClass = (Class<?>) container.mapResolveRequired(cls);
             var ctor = serviceClass.getConstructor(IContainer.class);
             return (BaseService) ctor.newInstance(container);
         } catch (ClassCastException e) {
             throw new RuntimeException("Service type error", e);
-        }
-        catch (NoSuchMethodException e) {
+        } catch (NoSuchMethodException e) {
             throw new RuntimeException("Service constructor error", e);
         } catch (InstantiationException | InvocationTargetException | IllegalAccessException e) {
             throw new RuntimeException("Failed to instantiate " + cls, e);

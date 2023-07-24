@@ -85,8 +85,8 @@ public class Container implements IContainer {
 
     private static class Item {
         public final boolean isSingleton;
-        public Object instance;
         public final Supplier<?> supplier;
+        public Object instance;
 
         public Item(boolean isSingleton, Object instance, Supplier<?> supplier) {
             this.isSingleton = isSingleton;

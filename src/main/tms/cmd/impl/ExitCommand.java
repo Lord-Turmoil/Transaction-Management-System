@@ -13,7 +13,6 @@ import tms.cmd.BaseCommand;
 import tms.service.impl.IExitService;
 
 import java.util.List;
-import java.util.logging.Logger;
 
 public class ExitCommand extends BaseCommand {
     private final IExitService service;

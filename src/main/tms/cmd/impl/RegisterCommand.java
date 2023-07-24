@@ -10,11 +10,9 @@ import host.exec.ExecutionException;
 import host.exec.TerminationException;
 import ioc.IContainer;
 import tms.cmd.BaseCommand;
-import tms.service.IService;
 import tms.service.impl.IAccountService;
 
 import java.util.List;
-import java.util.logging.Logger;
 
 public class RegisterCommand extends BaseCommand {
     private final IAccountService service;

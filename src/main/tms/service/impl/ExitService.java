@@ -10,11 +10,8 @@ import host.exec.ExecutionException;
 import ioc.IContainer;
 import tms.service.BaseService;
 import tms.shared.Errors;
-import uow.IUnitOfWork;
 
-import java.io.PrintStream;
 import java.util.List;
-import java.util.logging.Logger;
 
 public class ExitService extends BaseService implements IExitService {
     public ExitService(IContainer container) {

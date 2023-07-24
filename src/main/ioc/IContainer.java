@@ -10,6 +10,7 @@ import java.util.function.Supplier;
 
 public interface IContainer {
     IContainer addSingleton(Class<?> cls, Object instance);
+
     IContainer addSingleton(Class<?> cls, Supplier<?> supplier);
 
     IContainer addTransient(Class<?> cls, Supplier<?> supplier);

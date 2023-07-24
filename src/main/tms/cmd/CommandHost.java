@@ -6,11 +6,8 @@
 
 package tms.cmd;
 
-import ioc.IContainer;
 import tms.cmd.impl.ExitCommand;
 import tms.cmd.impl.RegisterCommand;
-import tms.service.impl.AccountService;
-import tms.service.impl.ExitService;
 import tms.service.impl.IAccountService;
 import tms.service.impl.IExitService;
 

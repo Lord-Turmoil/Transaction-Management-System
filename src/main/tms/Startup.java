@@ -3,29 +3,24 @@ package tms;
 import host.ConsoleHost;
 import host.ConsoleHostBuilder;
 import ioc.Container;
+import ioc.IContainer;
 import tms.model.TMSContext;
 import tms.model.entity.User;
 import tms.model.repo.UserRepository;
 
+import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.logging.Logger;
 
 public class Startup {
-    public Startup configure() {
-        var container = Container.getGlobal();
+    private IContainer container;
 
-        // console host
-        var host = new ConsoleHostBuilder()
-                .setLogger(Logger.getGlobal())
-                .build();
-        container.register(ConsoleHost.class, host);
+    public Startup(IContainer container) {
+        this.container = container;
+    }
 
-        // database context
-        var context = new TMSContext();
-        container.register(TMSContext.class, context);
-
-        // repository
-        container.register(User.class, new UserRepository(context));
-
+    public Startup configure(Consumer<IContainer> action) {
+        action.accept(container);
         return this;
     }
 

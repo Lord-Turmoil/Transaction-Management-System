@@ -42,9 +42,12 @@ public class ConsoleHost {
             }
 
             try {
-                var executable = provider.resolve(args.get(0));
                 if (logger != null) {
                     logger.log(Level.INFO, args.get(0), args);
+                }
+                var executable = provider.resolve(args.get(0));
+                if (executable == null) {
+                    throw new ExecutionException("Command '" + args.get(0) + "' not found");
                 }
                 args.remove(0);
                 executable.execute(args);

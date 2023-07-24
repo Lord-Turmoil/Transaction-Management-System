@@ -1,7 +1,7 @@
 /*******************************************************************************
  * Copyright (C) 2023 Tony Skywalker. All Rights Reserved
  *    Filename: Errors.java
- * Last Update: 7/24/23, 5:08 PM
+ * Last Update: 7/24/23, 6:12 PM
  */
 
 package tms.shared;
@@ -9,4 +9,6 @@ package tms.shared;
 public class Errors {
     public static final String IllegalArgumentCount = "Illegal argument count";
     public static final String AlreadyLoggedIn = "Already logged in";
+    public static final String IllegalId = "Illegal Kakafee number";
+    public static final String DuplicatedId = "Kakafee number exists";
 }

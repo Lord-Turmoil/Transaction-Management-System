@@ -1,7 +1,7 @@
 /*******************************************************************************
  * Copyright (C) 2023 Tony Skywalker. All Rights Reserved
  *    Filename: Repository.java
- * Last Update: 7/24/23, 4:57 PM
+ * Last Update: 7/24/23, 6:39 PM
  */
 
 package uow;
@@ -14,8 +14,7 @@ import java.util.Collection;
 import java.util.function.Predicate;
 
 public class Repository<TEntity> implements IRepository<TEntity> {
-    private DbSet<TEntity> dbSet;
-    private Predicate<TEntity> predicate;
+    private final DbSet<TEntity> dbSet;
 
     public Repository(DbContext dbContext, String model) {
         if (dbContext == null) {
@@ -31,6 +30,12 @@ public class Repository<TEntity> implements IRepository<TEntity> {
     @Override
     public IRepository<TEntity> add(TEntity entity) {
         dbSet.add(entity);
+        return this;
+    }
+
+    @Override
+    public IRepository<TEntity> add(Collection<TEntity> entities) {
+        dbSet.addAll(entities);
         return this;
     }
 
@@ -70,6 +75,12 @@ public class Repository<TEntity> implements IRepository<TEntity> {
     }
 
     @Override
+    public IRepository<TEntity> delete(Collection<TEntity> entities) {
+        dbSet.removeAll(entities);
+        return this;
+    }
+
+    @Override
     public IRepository<TEntity> delete(Predicate<TEntity> predicate) {
         var dirty = new ArrayList<>();
         for (var entity : dbSet) {
@@ -79,5 +90,10 @@ public class Repository<TEntity> implements IRepository<TEntity> {
         }
         dbSet.removeAll(dirty);
         return this;
+    }
+
+    @Override
+    public boolean exists(Predicate<TEntity> predicate) {
+        return dbSet.stream().anyMatch(predicate);
     }
 }

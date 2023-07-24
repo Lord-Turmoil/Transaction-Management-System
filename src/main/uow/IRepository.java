@@ -1,7 +1,7 @@
 /*******************************************************************************
  * Copyright (C) 2023 Tony Skywalker. All Rights Reserved
  *    Filename: IRepository.java
- * Last Update: 7/24/23, 4:57 PM
+ * Last Update: 7/24/23, 6:39 PM
  */
 
 package uow;
@@ -14,13 +14,23 @@ import java.util.function.Predicate;
 public interface IRepository<TEntity> {
     IRepository<TEntity> add(TEntity entity);
 
+    IRepository<TEntity> add(Collection<TEntity> entities);
+
+
+    IRepository<TEntity> delete(TEntity entity);
+
+    IRepository<TEntity> delete(Collection<TEntity> entities);
+
+    IRepository<TEntity> delete(Predicate<TEntity> predicate);
+
+
+    boolean exists(Predicate<TEntity> predicate);
+
+
     TEntity find(Predicate<TEntity> predicate);
 
     Collection<TEntity> findAll();
 
     TEntity get(Predicate<TEntity> predicate) throws NoSuchEntityException;
 
-    IRepository<TEntity> delete(TEntity entity);
-
-    IRepository<TEntity> delete(Predicate<TEntity> predicate);
 }

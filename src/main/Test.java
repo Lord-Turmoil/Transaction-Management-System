@@ -10,10 +10,9 @@ import ioc.Container;
 import tms.Startup;
 import tms.exec.cmd.CommandHost;
 import tms.exec.cmd.CommandProvider;
+import tms.model.RepositoryHost;
 import tms.model.TMSContext;
 import tms.model.entity.LoginStatus;
-import tms.model.entity.User;
-import tms.model.repo.UserRepository;
 import tms.exec.service.ServiceHost;
 import uow.IUnitOfWork;
 import uow.UnitOfWork;
@@ -46,7 +45,7 @@ public class Test {
             // unit of work
             container.addSingleton(IUnitOfWork.class, new UnitOfWork(container));
             // repository
-            container.addSingleton(User.class, new UserRepository(context));
+            RepositoryHost.registerAll(container, context);
             // Service (after unit of work)
             ServiceHost.registerAll(container);
         }).configure(container -> {

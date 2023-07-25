@@ -15,15 +15,15 @@ import java.io.PrintStream;
 import java.util.logging.Logger;
 
 public class ServiceHost {
-    private ServiceHost() {
-    }
+	private ServiceHost() {
+	}
 
-    public static void registerAll(IContainer container) {
-        IUnitOfWork unitOfWork = container.resolveRequired(IUnitOfWork.class);
-        PrintStream printer = container.resolveRequired(PrintStream.class);
-        Logger logger = container.resolveRequired(Logger.class);
+	public static void registerAll(IContainer container) {
+		IUnitOfWork unitOfWork = container.resolveRequired(IUnitOfWork.class);
+		PrintStream printer = container.resolveRequired(PrintStream.class);
+		Logger logger = container.resolveRequired(Logger.class);
 
-        container.addSingleton(IExitService.class, ExitService.class)
-                .addSingleton(IAccountService.class, AccountService.class);
-    }
+		container.addSingleton(IExitService.class, ExitService.class)
+				.addSingleton(IAccountService.class, AccountService.class);
+	}
 }

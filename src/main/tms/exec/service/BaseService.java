@@ -13,31 +13,31 @@ import java.io.PrintStream;
 import java.util.logging.Logger;
 
 public class BaseService implements IService {
-    protected IContainer container;
-    protected IUnitOfWork unitOfWork;
-    protected Logger logger;
-    protected PrintStream printer;
+	protected IContainer container;
+	protected IUnitOfWork unitOfWork;
+	protected Logger logger;
+	protected PrintStream printer;
 
-    public BaseService(IContainer container) {
-        this.container = container;
-        this.unitOfWork = container.resolveRequired(IUnitOfWork.class);
-        this.printer = container.resolveRequired(PrintStream.class);
-        this.logger = container.resolve(Logger.class);
-    }
+	public BaseService(IContainer container) {
+		this.container = container;
+		this.unitOfWork = container.resolveRequired(IUnitOfWork.class);
+		this.printer = container.resolveRequired(PrintStream.class);
+		this.logger = container.resolve(Logger.class);
+	}
 
-    public LoginStatus getLoginStatus() {
-        return container.resolveRequired(LoginStatus.class);
-    }
+	public LoginStatus getLoginStatus() {
+		return container.resolveRequired(LoginStatus.class);
+	}
 
-    public User getCurrentUser() {
-        return getLoginStatus().getUser();
-    }
+	public User getCurrentUser() {
+		return getLoginStatus().getUser();
+	}
 
-    public void setCurrentUser(User user) {
-        getLoginStatus().setUser(user);
-    }
+	public void setCurrentUser(User user) {
+		getLoginStatus().setUser(user);
+	}
 
-    public boolean isLoggedIn() {
-        return getCurrentUser() != null;
-    }
+	public boolean isLoggedIn() {
+		return getCurrentUser() != null;
+	}
 }

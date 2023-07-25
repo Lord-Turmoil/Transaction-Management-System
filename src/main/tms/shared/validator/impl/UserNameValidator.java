@@ -7,8 +7,8 @@ package tms.shared.validator.impl;
 import tms.shared.validator.IValidator;
 
 public class UserNameValidator implements IValidator {
-    @Override
-    public boolean check(String value) {
-        return value.matches("^[a-zA-Z_]{4,16}$");
-    }
+	@Override
+	public boolean check(String value) {
+		return value.matches("^[a-zA-Z_]{4,16}$");
+	}
 }

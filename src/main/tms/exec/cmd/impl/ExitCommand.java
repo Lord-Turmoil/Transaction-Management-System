@@ -13,16 +13,16 @@ import tms.exec.service.impl.IExitService;
 import java.util.List;
 
 public class ExitCommand extends BaseCommand {
-    private final IExitService service;
+	private final IExitService service;
 
-    public ExitCommand(IExitService service, IContainer container) {
-        super(container);
-        this.service = service;
-    }
+	public ExitCommand(IExitService service, IContainer container) {
+		super(container);
+		this.service = service;
+	}
 
-    @Override
-    public void execute(List<String> args) throws ExecutionException, TerminationException {
-        service.exit(args);
-        throw new TerminationException();
-    }
+	@Override
+	public void execute(List<String> args) throws ExecutionException, TerminationException {
+		service.exit(args);
+		throw new TerminationException();
+	}
 }

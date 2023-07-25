@@ -5,16 +5,14 @@
 package tms.model.entity;
 
 public class User {
-    public enum Role {
-        Administrator,
-        Merchant,
-        Customer
-    }
+	public String id;
+	public String name;
+	public String password;
+	public Role role;
 
-    public String id;
-
-    public String name;
-    public String password;
-
-    public Role role;
+	public enum Role {
+		Administrator,
+		Merchant,
+		Customer
+	}
 }

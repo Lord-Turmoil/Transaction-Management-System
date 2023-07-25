@@ -6,11 +6,10 @@ package tms.model.repo;
 
 import tms.model.TMSContext;
 import tms.model.entity.Commodity;
-import uow.DbContext;
 import uow.Repository;
 
 public class CommodityRepository extends Repository<Commodity> {
-    public CommodityRepository(TMSContext dbContext) {
-        super(dbContext, TMSContext.Commodity);
-    }
+	public CommodityRepository(TMSContext dbContext) {
+		super(dbContext, TMSContext.Commodity);
+	}
 }

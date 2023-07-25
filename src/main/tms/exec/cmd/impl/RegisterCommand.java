@@ -13,15 +13,15 @@ import tms.exec.service.impl.IAccountService;
 import java.util.List;
 
 public class RegisterCommand extends BaseCommand {
-    private final IAccountService service;
+	private final IAccountService service;
 
-    public RegisterCommand(IAccountService service, IContainer container) {
-        super(container);
-        this.service = service;
-    }
+	public RegisterCommand(IAccountService service, IContainer container) {
+		super(container);
+		this.service = service;
+	}
 
-    @Override
-    public void execute(List<String> args) throws ExecutionException, TerminationException {
-        service.register(args);
-    }
+	@Override
+	public void execute(List<String> args) throws ExecutionException, TerminationException {
+		service.register(args);
+	}
 }

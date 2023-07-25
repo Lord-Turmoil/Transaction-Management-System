@@ -15,13 +15,13 @@ import tms.model.repo.ShopRepository;
 import tms.model.repo.UserRepository;
 
 public class RepositoryHost {
-    private RepositoryHost() {
-    }
+	private RepositoryHost() {
+	}
 
-    public static void registerAll(IContainer container, TMSContext context) {
-        container.addSingleton(User.class, () -> new UserRepository(context))
-                .addSingleton(Shop.class, () -> new ShopRepository(context))
-                .addSingleton(Commodity.class, () -> new CommodityRepository(context))
-                .addSingleton(Product.class, () -> new ProductRepository(context));
-    }
+	public static void registerAll(IContainer container, TMSContext context) {
+		container.addSingleton(User.class, () -> new UserRepository(context))
+				.addSingleton(Shop.class, () -> new ShopRepository(context))
+				.addSingleton(Commodity.class, () -> new CommodityRepository(context))
+				.addSingleton(Product.class, () -> new ProductRepository(context));
+	}
 }

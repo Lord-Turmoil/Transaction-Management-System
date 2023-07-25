@@ -9,9 +9,9 @@ import tms.exec.service.IService;
 import java.util.List;
 
 public interface IShopService extends IService {
-    void register(List<String> args);
+	void register(List<String> args);
 
-    void list(List<String> args);
+	void list(List<String> args);
 
-    void cancel(List<String> args);
+	void cancel(List<String> args);
 }

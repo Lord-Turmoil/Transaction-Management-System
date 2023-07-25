@@ -12,15 +12,12 @@ import uow.DbContext;
 import uow.DbSet;
 
 public class TMSContext extends DbContext {
-    public static final String User = "users";
-    public DbSet<User> users;
-
-    public static final String Shop = "shops";
-    public DbSet<Shop> shops;
-
-    public static final String Product = "products";
-    public DbSet<Product> products;
-
-    public static final String Commodity = "commodities";
-    public DbSet<Commodity> commodities;
+	public static final String User = "users";
+	public static final String Shop = "shops";
+	public static final String Product = "products";
+	public static final String Commodity = "commodities";
+	public DbSet<User> users;
+	public DbSet<Shop> shops;
+	public DbSet<Product> products;
+	public DbSet<Commodity> commodities;
 }

@@ -12,15 +12,15 @@ import tms.shared.Errors;
 import java.util.List;
 
 public class ExitService extends BaseService implements IExitService {
-    public ExitService(IContainer container) {
-        super(container);
-    }
+	public ExitService(IContainer container) {
+		super(container);
+	}
 
-    @Override
-    public void exit(List<String> args) throws ExecutionException {
-        if (args.size() > 0) {
-            throw new ExecutionException(Errors.IllegalArgumentCount);
-        }
-        printer.println("----- Good Bye! -----");
-    }
+	@Override
+	public void exit(List<String> args) throws ExecutionException {
+		if (args.size() > 0) {
+			throw new ExecutionException(Errors.IllegalArgumentCount);
+		}
+		printer.println("----- Good Bye! -----");
+	}
 }

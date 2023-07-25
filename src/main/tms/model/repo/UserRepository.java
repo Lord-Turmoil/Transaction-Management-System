@@ -9,7 +9,7 @@ import tms.model.entity.User;
 import uow.Repository;
 
 public class UserRepository extends Repository<User> {
-    public UserRepository(TMSContext dbContext) {
-        super(dbContext, TMSContext.User);
-    }
+	public UserRepository(TMSContext dbContext) {
+		super(dbContext, TMSContext.User);
+	}
 }

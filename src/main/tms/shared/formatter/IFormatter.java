@@ -10,11 +10,11 @@ import java.io.PrintStream;
  * By default, takes no action.
  */
 public interface IFormatter {
-    void format(PrintStream printer, Object obj);
+	void format(PrintStream printer, Object obj);
 
-    default void format(PrintStream printer, Object obj1, Object obj2) {
-    }
+	default void format(PrintStream printer, Object obj1, Object obj2) {
+	}
 
-    default void format(PrintStream printer, Object obj1, Object obj2, Object obj3) {
-    }
+	default void format(PrintStream printer, Object obj1, Object obj2, Object obj3) {
+	}
 }

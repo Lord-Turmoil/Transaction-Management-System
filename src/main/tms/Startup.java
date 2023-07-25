@@ -11,18 +11,18 @@ import ioc.IContainer;
 import java.util.function.Consumer;
 
 public class Startup {
-    private IContainer container;
+	private final IContainer container;
 
-    public Startup(IContainer container) {
-        this.container = container;
-    }
+	public Startup(IContainer container) {
+		this.container = container;
+	}
 
-    public Startup configure(Consumer<IContainer> action) {
-        action.accept(container);
-        return this;
-    }
+	public Startup configure(Consumer<IContainer> action) {
+		action.accept(container);
+		return this;
+	}
 
-    public void run() {
-        Container.getGlobal().resolve(ConsoleHost.class).run();
-    }
+	public void run() {
+		Container.getGlobal().resolve(ConsoleHost.class).run();
+	}
 }

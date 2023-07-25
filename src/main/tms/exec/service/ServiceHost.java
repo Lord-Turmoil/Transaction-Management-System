@@ -17,6 +17,9 @@ import java.io.PrintStream;
 import java.util.logging.Logger;
 
 public class ServiceHost {
+    private ServiceHost() {
+    }
+
     public static void registerAll(IContainer container) {
         IUnitOfWork unitOfWork = container.resolveRequired(IUnitOfWork.class);
         PrintStream printer = container.resolveRequired(PrintStream.class);

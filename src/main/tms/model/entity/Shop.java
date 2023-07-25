@@ -20,7 +20,7 @@ public class Shop {
         return nextId++;
     }
 
-    public int Id;
-    public String Name;
-    public Status Status;
+    public int id;
+    public String name;
+    public Status status;
 }

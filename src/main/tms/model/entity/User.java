@@ -7,10 +7,16 @@
 package tms.model.entity;
 
 public class User {
-    public String Id;
+    public enum Role {
+        Administrator,
+        Merchant,
+        Customer
+    }
 
-    public String Name;
-    public String Password;
+    public String id;
 
-    public Role Role;
+    public String name;
+    public String password;
+
+    public Role role;
 }

@@ -9,7 +9,6 @@ package tms.exec.service.impl;
 import host.exec.ExecutionException;
 import ioc.IContainer;
 import tms.exec.service.BaseService;
-import tms.model.entity.Role;
 import tms.model.entity.User;
 import tms.shared.Errors;
 import tms.shared.formatter.impl.UserInfoFormatter;
@@ -39,16 +38,16 @@ public class AccountService extends BaseService implements IAccountService {
             throw new ExecutionException(Errors.IllegalId);
         }
         var repo = unitOfWork.getRepository(User.class);
-        if (repo.exists(x -> x.Id.equals(id))) {
+        if (repo.exists(x -> x.id.equals(id))) {
             throw new ExecutionException(Errors.DuplicatedId);
         }
-        user.Id = id;
+        user.id = id;
 
         var name = args.get(1);
         if (!new UsernameValidator().check(name)) {
             throw new ExecutionException(Errors.IllegalName);
         }
-        user.Name = name;
+        user.name = name;
 
         var password = args.get(2);
         if (!new PasswordValidator().check(password)) {
@@ -58,13 +57,13 @@ public class AccountService extends BaseService implements IAccountService {
         if (!password.equals(confirm)) {
             throw new ExecutionException(Errors.PasswordInconsistent);
         }
-        user.Password = password;
+        user.password = password;
 
         var type = args.get(4);
-        user.Role = switch (type) {
-            case "Administrator" -> Role.Administrator;
-            case "Merchant" -> Role.Merchant;
-            case "Customer" -> Role.Customer;
+        user.role = switch (type) {
+            case "Administrator" -> User.Role.Administrator;
+            case "Merchant" -> User.Role.Merchant;
+            case "Customer" -> User.Role.Customer;
             default -> throw new ExecutionException(Errors.IllegalIdentity);
         };
 
@@ -88,12 +87,12 @@ public class AccountService extends BaseService implements IAccountService {
             throw new ExecutionException(Errors.IllegalId);
         }
 
-        var user = unitOfWork.getRepository(User.class).find(x -> x.Id.equals(id));
+        var user = unitOfWork.getRepository(User.class).find(x -> x.id.equals(id));
         if (user == null) {
             throw new ExecutionException(Errors.NoSuchUser);
         }
         var password = args.get(1);
-        if (!user.Password.equals(password)) {
+        if (!user.password.equals(password)) {
             throw new ExecutionException(Errors.WrongPassword);
         }
 
@@ -128,14 +127,14 @@ public class AccountService extends BaseService implements IAccountService {
         if (args.size() == 0) {
             target = user;  // user is not null here
         } else {
-            if (user.Role != Role.Administrator) {
+            if (user.role != User.Role.Administrator) {
                 throw new ExecutionException(Errors.PermissionDenied);
             }
             var id = args.get(0);
             if (!new IdValidator().check(id)) {
                 throw new ExecutionException(Errors.IllegalId);
             }
-            target = unitOfWork.getRepository(User.class).find(x -> x.Id.equals(id));
+            target = unitOfWork.getRepository(User.class).find(x -> x.id.equals(id));
             if (target == null) {
                 throw new ExecutionException(Errors.NoSuchUser);
             }

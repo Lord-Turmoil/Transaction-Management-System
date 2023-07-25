@@ -20,8 +20,8 @@ public class UserInfoFormatter implements IFormatter {
         } catch (ClassCastException e) {
             throw new RuntimeException(obj + " is not User", e);
         }
-        printer.println("Name: " + user.Name);
-        printer.println("Kakafee number: " + user.Id);
-        printer.println("Type: " + user.Role);
+        printer.println("Name: " + user.name);
+        printer.println("Kakafee number: " + user.id);
+        printer.println("Type: " + user.role);
     }
 }

@@ -15,18 +15,18 @@ public class Product {
         return nextId++;
     }
 
-    public int Id;
-    public String Name;
-    public int TotalStock;
+    public int id;
+    public String name;
+    public int totalStock;
 
     // Merchant Id
-    public String OwnerId;
+    public String ownerId;
 
     private Product(String name, String ownerId) {
-        this.Id = getNextId();
-        this.Name = name;
-        this.TotalStock = 0;
-        this.OwnerId = ownerId;
+        this.id = getNextId();
+        this.name = name;
+        this.totalStock = 0;
+        this.ownerId = ownerId;
     }
 
     public static Product create(String name, String ownerId) {

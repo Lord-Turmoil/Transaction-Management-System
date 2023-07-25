@@ -34,7 +34,7 @@ public class Container implements IContainer {
     @Override
     public IContainer addSingleton(Class<?> cls, Supplier<?> supplier) {
         pool.put(cls, new Item(true, null, supplier));
-        return null;
+        return this;
     }
 
     @Override

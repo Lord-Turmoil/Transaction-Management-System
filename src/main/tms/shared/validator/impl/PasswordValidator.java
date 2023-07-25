@@ -1,7 +1,5 @@
 /*******************************************************************************
  * Copyright (C) 2023 Tony Skywalker. All Rights Reserved
- *    Filename: PasswordValidator.java
- * Last Update: 7/24/23, 6:52 PM
  */
 
 package tms.shared.validator.impl;

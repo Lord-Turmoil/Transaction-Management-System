@@ -36,7 +36,7 @@ public class Test {
             var builder = new ConsoleHostBuilder()
                     .setProvider(provider)
                     .setOutput(printer)
-//                    .setLogger(logger)
+                    .setLogger(logger)
                     .setInteractive(true);
             container.addSingleton(ConsoleHost.class, builder.build());
         }).configure(container -> {

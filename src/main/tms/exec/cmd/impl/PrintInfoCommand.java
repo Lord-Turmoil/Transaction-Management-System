@@ -1,7 +1,5 @@
 /*******************************************************************************
  * Copyright (C) 2023 Tony Skywalker. All Rights Reserved
- *    Filename: PrintInfoCommand.java
- * Last Update: 7/24/23, 9:51 PM
  */
 
 package tms.exec.cmd.impl;

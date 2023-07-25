@@ -1,7 +1,5 @@
 /*******************************************************************************
  * Copyright (C) 2023 Tony Skywalker. All Rights Reserved
- *    Filename: UserInfoFormatter.java
- * Last Update: 7/24/23, 9:24 PM
  */
 
 package tms.shared.formatter.impl;

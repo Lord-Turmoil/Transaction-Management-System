@@ -1,7 +1,5 @@
 /*******************************************************************************
  * Copyright (C) 2023 Tony Skywalker. All Rights Reserved
- *    Filename: LoginCommand.java
- * Last Update: 7/24/23, 9:15 PM
  */
 
 package tms.exec.cmd.impl;

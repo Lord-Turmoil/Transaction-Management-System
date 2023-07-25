@@ -1,9 +1,5 @@
-/*
+/*******************************************************************************
  * Copyright (C) 2023 Tony Skywalker. All Rights Reserved
- *
- * @Time    : 7/25/2023 21:12
- * @Author  : Tony Skywalker
- * @File    : ProductRepository.java
  */
 
 package tms.model.repo;

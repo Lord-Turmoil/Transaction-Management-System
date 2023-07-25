@@ -1,7 +1,5 @@
 /*******************************************************************************
  * Copyright (C) 2023 Tony Skywalker. All Rights Reserved
- *    Filename: CommandHost.java
- * Last Update: 7/24/23, 8:53 PM
  */
 
 package tms.exec.cmd;

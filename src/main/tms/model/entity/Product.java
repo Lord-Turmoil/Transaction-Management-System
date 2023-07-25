@@ -11,7 +11,7 @@ package tms.model.entity;
 public class Product {
     private static int nextId = 1;
 
-    public static int getNextId() {
+    private static int getNextId() {
         return nextId++;
     }
 
@@ -20,16 +20,16 @@ public class Product {
     public int totalStock;
 
     // Merchant Id
-    public String ownerId;
+    public User owner;
 
-    private Product(String name, String ownerId) {
+    private Product(String name, User owner) {
         this.id = getNextId();
         this.name = name;
         this.totalStock = 0;
-        this.ownerId = ownerId;
+        this.owner = owner;
     }
 
-    public static Product create(String name, String ownerId) {
-        return new Product(name, ownerId);
+    public static Product create(String name, User owner) {
+        return new Product(name, owner);
     }
 }

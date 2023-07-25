@@ -14,7 +14,7 @@ import tms.model.entity.User;
 import tms.shared.Errors;
 import tms.shared.formatter.impl.UserInfoFormatter;
 import tms.shared.validator.impl.IdValidator;
-import tms.shared.validator.impl.NameValidator;
+import tms.shared.validator.impl.UsernameValidator;
 import tms.shared.validator.impl.PasswordValidator;
 
 import java.util.List;
@@ -45,7 +45,7 @@ public class AccountService extends BaseService implements IAccountService {
         user.Id = id;
 
         var name = args.get(1);
-        if (!new NameValidator().check(name)) {
+        if (!new UsernameValidator().check(name)) {
             throw new ExecutionException(Errors.IllegalName);
         }
         user.Name = name;

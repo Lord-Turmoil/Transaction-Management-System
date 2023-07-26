@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 
 public class Product {
 	private static int nextId = 1;
-	public int id;
+	public String id;
 	public String name;
 	// I'm afraid double may cause precision error
 	public BigDecimal price;
@@ -24,8 +24,8 @@ public class Product {
 		this.owner = owner;
 	}
 
-	private static int getNextId() {
-		return nextId++;
+	private static String getNextId() {
+		return "C-" + nextId++;
 	}
 
 	public static Product create(String name, BigDecimal price, User owner) {

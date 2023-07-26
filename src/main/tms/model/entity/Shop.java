@@ -6,7 +6,7 @@ package tms.model.entity;
 
 public class Shop {
 	private static int nextId = 1;
-	public int id;
+	public String id;
 	public String name;
 	public Status status;
 	public User owner;
@@ -17,8 +17,8 @@ public class Shop {
 		this.owner = owner;
 	}
 
-	private static int getNextId() {
-		return nextId++;
+	private static String getNextId() {
+		return "S-" + nextId++;
 	}
 
 	public static Shop create(String name, User owner) {

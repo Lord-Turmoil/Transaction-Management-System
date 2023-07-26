@@ -62,6 +62,17 @@ public class Repository<TEntity> implements IRepository<TEntity> {
 		throw new NoSuchEntityException();
 	}
 
+	@Override
+	public int count(Predicate<TEntity> predicate) {
+		int cnt = 0;
+		for (var entity : dbSet) {
+			if (predicate.test(entity)) {
+				cnt++;
+			}
+		}
+		return cnt;
+	}
+
 	/**
 	 * Here, entity must come from dbSet! Since address comparison
 	 * is used.

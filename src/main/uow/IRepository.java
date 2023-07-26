@@ -30,4 +30,6 @@ public interface IRepository<TEntity> {
 	Collection<TEntity> findAll();
 
 	TEntity get(Predicate<TEntity> predicate) throws NoSuchEntityException;
+
+	int count(Predicate<TEntity> predicate);
 }

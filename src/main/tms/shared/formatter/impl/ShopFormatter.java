@@ -14,7 +14,7 @@ public class ShopFormatter implements IFormatter {
 		try {
 			shop = (Shop) obj;
 		} catch (ClassCastException e) {
-			throw new RuntimeException(obj + " is not User", e);
+			throw new RuntimeException(obj + " is not Shop", e);
 		}
 
 		return shop.getId() + " " + shop.name;

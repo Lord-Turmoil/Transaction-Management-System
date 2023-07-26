@@ -19,15 +19,14 @@ public class PrintHandler implements IPrintHandler {
 	}
 
 	@Override
-	public void print(Object object, IFormatter formatter) {
+	public <T> void print(T object, IFormatter formatter) {
 		this.printer.println(formatter.format(object));
 	}
 
 	@Override
-	public void print(Collection<Object> objects, IFormatter formatter) {
+	public <T> void print(Collection<T> objects, IFormatter formatter) {
 		for (var obj : objects) {
 			print(obj, formatter);
-			printer.println();
 		}
 	}
 }

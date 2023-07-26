@@ -5,10 +5,7 @@
 package tms.exec.service;
 
 import ioc.IContainer;
-import tms.exec.service.impl.AccountService;
-import tms.exec.service.impl.ExitService;
-import tms.exec.service.impl.IAccountService;
-import tms.exec.service.impl.IExitService;
+import tms.exec.service.impl.*;
 import uow.IUnitOfWork;
 
 import java.io.PrintStream;
@@ -23,6 +20,7 @@ public class ServiceHost {
 		Logger logger = container.resolveRequired(Logger.class);
 
 		container.addSingleton(IExitService.class, ExitService.class)
-				.addSingleton(IAccountService.class, AccountService.class);
+				.addSingleton(IAccountService.class, AccountService.class)
+				.addSingleton(IShopService.class, ShopService.class);
 	}
 }

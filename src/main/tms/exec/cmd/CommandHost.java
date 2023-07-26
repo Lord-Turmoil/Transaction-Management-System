@@ -7,6 +7,7 @@ package tms.exec.cmd;
 import tms.exec.cmd.impl.*;
 import tms.exec.service.impl.IAccountService;
 import tms.exec.service.impl.IExitService;
+import tms.exec.service.impl.IShopService;
 
 /**
  * To register all classes.
@@ -21,5 +22,8 @@ public class CommandHost {
 				.register("login", LoginCommand.class, IAccountService.class)
 				.register("logout", LogoutCommand.class, IAccountService.class)
 				.register("printInfo", PrintInfoCommand.class, IAccountService.class);
+		provider.register("registerShop", RegisterShopCommand.class, IShopService.class)
+				.register("listShop", ListShopCommand.class, IShopService.class)
+				.register("cancelShop", CancelShopCommand.class, IShopService.class);
 	}
 }

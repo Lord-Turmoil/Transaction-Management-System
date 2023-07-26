@@ -21,5 +21,11 @@ public class Errors {
 	public static final String IllegalShopName = "Illegal shop name";
 	public static final String IllegalShopId = "Illegal shop id";
 	public static final String NoSuchShopId = "Shop id not exists";
+
+	public static final String IllegalProductName = "Illegal commodity name";
+	public static final String IllegalProductPrice = "Illegal commodity price";
+	public static final String IllegalProductCount = "Illegal commodity count";
+	public static final String NoSuchProductId = "Commodity id not exists";
+
 	private Errors() {}
 }

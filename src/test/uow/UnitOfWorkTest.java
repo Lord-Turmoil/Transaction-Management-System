@@ -27,11 +27,11 @@ public class UnitOfWorkTest {
         System.out.println(repo);
         repo.add("Hello");
         repo.add("There");
-        System.out.println(repo.findAll());
+        System.out.println(repo.getAll());
 
         repo = unitOfWork.getRepository(String.class);
         System.out.println(repo);
         repo.delete(x -> x.equals("There"));
-        System.out.println(repo.findAll());
+        System.out.println(repo.getAll());
     }
 }

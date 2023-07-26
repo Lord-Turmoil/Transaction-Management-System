@@ -7,6 +7,8 @@ package uow;
 import uow.exception.NoSuchEntityException;
 
 import java.util.Collection;
+import java.util.Comparator;
+import java.util.List;
 import java.util.function.Predicate;
 
 public interface IRepository<TEntity> {
@@ -27,9 +29,12 @@ public interface IRepository<TEntity> {
 
 	TEntity find(Predicate<TEntity> predicate);
 
-	Collection<TEntity> findAll();
+	List<TEntity> findAll(Predicate<TEntity> predicate);
+	List<TEntity> findAll(Predicate<TEntity> predicate, Comparator<TEntity> orderBy);
 
 	TEntity get(Predicate<TEntity> predicate) throws NoSuchEntityException;
+
+	List<TEntity> getAll();
 
 	int count(Predicate<TEntity> predicate);
 }

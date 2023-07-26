@@ -7,8 +7,7 @@ package uow;
 import uow.exception.NoSuchDbSetException;
 import uow.exception.NoSuchEntityException;
 
-import java.util.ArrayList;
-import java.util.Collection;
+import java.util.*;
 import java.util.function.Predicate;
 
 public class Repository<TEntity> implements IRepository<TEntity> {
@@ -48,8 +47,21 @@ public class Repository<TEntity> implements IRepository<TEntity> {
 	}
 
 	@Override
-	public Collection<TEntity> findAll() {
-		return dbSet.stream().toList();
+	public List<TEntity> findAll(Predicate<TEntity> predicate) {
+		var entities = new ArrayList<TEntity>();
+		for (var entity : dbSet) {
+			if (predicate.test(entity)) {
+				entities.add(entity);
+			}
+		}
+		return entities;
+	}
+
+	@Override
+	public List<TEntity> findAll(Predicate<TEntity> predicate, Comparator<TEntity> orderBy) {
+		var entities = findAll(predicate);
+		entities.sort(orderBy);
+		return entities;
 	}
 
 	@Override
@@ -60,6 +72,11 @@ public class Repository<TEntity> implements IRepository<TEntity> {
 			}
 		}
 		throw new NoSuchEntityException();
+	}
+
+	@Override
+	public List<TEntity> getAll() {
+		return dbSet.stream().toList();
 	}
 
 	@Override
@@ -91,7 +108,7 @@ public class Repository<TEntity> implements IRepository<TEntity> {
 
 	@Override
 	public IRepository<TEntity> delete(Predicate<TEntity> predicate) {
-		var dirty = new ArrayList<>();
+		var dirty = new ArrayList<TEntity>();
 		for (var entity : dbSet) {
 			if (predicate.test(entity)) {
 				dirty.add(entity);

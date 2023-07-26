@@ -80,6 +80,13 @@ public class Repository<TEntity> implements IRepository<TEntity> {
 	}
 
 	@Override
+	public List<TEntity> getAll(Comparator<TEntity> orderBy) {
+		var entities = getAll();
+		entities.sort(orderBy);
+		return entities;
+	}
+
+	@Override
 	public int count(Predicate<TEntity> predicate) {
 		int cnt = 0;
 		for (var entity : dbSet) {

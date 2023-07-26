@@ -7,7 +7,10 @@ package uow;
 import uow.exception.NoSuchDbSetException;
 import uow.exception.NoSuchEntityException;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.List;
 import java.util.function.Predicate;
 
 public class Repository<TEntity> implements IRepository<TEntity> {

@@ -30,11 +30,13 @@ public interface IRepository<TEntity> {
 	TEntity find(Predicate<TEntity> predicate);
 
 	List<TEntity> findAll(Predicate<TEntity> predicate);
+
 	List<TEntity> findAll(Predicate<TEntity> predicate, Comparator<TEntity> orderBy);
 
 	TEntity get(Predicate<TEntity> predicate) throws NoSuchEntityException;
 
 	List<TEntity> getAll();
+
 	List<TEntity> getAll(Comparator<TEntity> orderBy);
 
 	int count(Predicate<TEntity> predicate);

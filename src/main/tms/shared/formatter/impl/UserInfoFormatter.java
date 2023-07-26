@@ -7,8 +7,6 @@ package tms.shared.formatter.impl;
 import tms.model.entity.User;
 import tms.shared.formatter.IFormatter;
 
-import java.io.PrintStream;
-
 public class UserInfoFormatter implements IFormatter {
 	@Override
 	public String format(Object obj) {

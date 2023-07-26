@@ -4,8 +4,6 @@
 
 package tms.shared.formatter;
 
-import java.io.PrintStream;
-
 /**
  * By default, takes no action.
  */

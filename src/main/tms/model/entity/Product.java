@@ -35,11 +35,11 @@ public class Product {
 		return Integer.parseInt(value.substring(2));
 	}
 
-	public String getId() {
-		return "C-" + id;
-	}
-
 	public static Product create(String name, BigDecimal price, User owner) {
 		return new Product(name, price, owner);
+	}
+
+	public String getId() {
+		return "C-" + id;
 	}
 }

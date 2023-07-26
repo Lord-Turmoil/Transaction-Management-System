@@ -9,6 +9,7 @@ public class Commodity {
 	public int stock;
 	public Status status;
 	public Product product;
+
 	private Commodity(int shopId, int stock, Product product) {
 		this.shopId = shopId;
 		this.stock = stock;

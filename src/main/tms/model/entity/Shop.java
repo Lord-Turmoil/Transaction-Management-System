@@ -10,6 +10,7 @@ public class Shop {
 	public String name;
 	public Status status;
 	public User owner;
+
 	private Shop(String name, User owner) {
 		this.id = getNextId();
 		this.name = name;
@@ -28,12 +29,12 @@ public class Shop {
 		return Integer.parseInt(value.substring(2));
 	}
 
-	public String getId() {
-		return "S-" + id;
-	}
-
 	public static Shop create(String name, User owner) {
 		return new Shop(name, owner);
+	}
+
+	public String getId() {
+		return "S-" + id;
 	}
 
 	public enum Status {

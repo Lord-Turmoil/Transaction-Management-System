@@ -12,8 +12,7 @@ import tms.exec.service.impl.IExitService;
  * To register all classes.
  */
 public class CommandHost {
-	private CommandHost() {
-	}
+	private CommandHost() {}
 
 	public static void registerAll(CommandProvider provider) {
 		provider.register("exit", ExitCommand.class, IExitService.class);

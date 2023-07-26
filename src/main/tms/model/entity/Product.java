@@ -9,12 +9,15 @@ import java.math.BigDecimal;
 public class Product {
 	private static int nextId = 1;
 	public int id;
+
 	public String name;
+
 	// I'm afraid double may cause precision error
 	public BigDecimal price;
 	public int totalStock;
 	// Merchant Id
 	public User owner;
+	public Status status;
 
 	private Product(String name, BigDecimal price, User owner) {
 		this.id = getNextId();
@@ -22,6 +25,7 @@ public class Product {
 		this.totalStock = 0;
 		this.price = price;
 		this.owner = owner;
+		this.status = Status.Available;
 	}
 
 	private static int getNextId() {
@@ -41,5 +45,10 @@ public class Product {
 
 	public String getId() {
 		return "C-" + id;
+	}
+
+	public enum Status {
+		Available,
+		Unavailable
 	}
 }

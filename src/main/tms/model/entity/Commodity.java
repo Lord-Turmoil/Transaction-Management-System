@@ -5,26 +5,19 @@
 package tms.model.entity;
 
 public class Commodity {
-	public int shopId;
+	public Shop shop;
 	public int stock;
-	public Status status;
 	public Product product;
 
-	private Commodity(int shopId, int stock, Product product) {
-		this.shopId = shopId;
+	private Commodity(Shop shop, int stock, Product product) {
+		this.shop = shop;
 		this.stock = stock;
-		this.status = Status.Available;
 		this.product = product;
 	}
 
 	// Warning: This will change product!
-	public static Commodity create(int shopId, int stock, Product product) {
+	public static Commodity create(Shop shop, int stock, Product product) {
 		product.totalStock += stock;
-		return new Commodity(shopId, stock, product);
-	}
-
-	public enum Status {
-		Available,
-		Unavailable
+		return new Commodity(shop, stock, product);
 	}
 }

@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 
 public class Product {
 	private static int nextId = 1;
-	public String id;
+	public int id;
 	public String name;
 	// I'm afraid double may cause precision error
 	public BigDecimal price;
@@ -24,8 +24,19 @@ public class Product {
 		this.owner = owner;
 	}
 
-	private static String getNextId() {
-		return "C-" + nextId++;
+	private static int getNextId() {
+		return nextId++;
+	}
+
+	public static int parseId(String value) throws NumberFormatException {
+		if (!value.matches("^C-\\d+$")) {
+			throw new NumberFormatException("Bad prefix");
+		}
+		return Integer.parseInt(value.substring(2));
+	}
+
+	public String getId() {
+		return "C-" + id;
 	}
 
 	public static Product create(String name, BigDecimal price, User owner) {

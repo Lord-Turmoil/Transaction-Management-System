@@ -6,7 +6,7 @@ package tms.model.entity;
 
 public class Shop {
 	private static int nextId = 1;
-	public String id;
+	public int id;
 	public String name;
 	public Status status;
 	public User owner;
@@ -17,15 +17,26 @@ public class Shop {
 		this.owner = owner;
 	}
 
-	private static String getNextId() {
-		return "S-" + nextId++;
+	private static int getNextId() {
+		return nextId++;
+	}
+
+	public static int parseId(String value) throws NumberFormatException {
+		if (!value.matches("^S-\\d+$")) {
+			throw new NumberFormatException("Bad prefix");
+		}
+		return Integer.parseInt(value.substring(2));
+	}
+
+	public String getId() {
+		return "S-" + id;
 	}
 
 	public static Shop create(String name, User owner) {
 		return new Shop(name, owner);
 	}
 
-	enum Status {
+	public enum Status {
 		Open,
 		Closed
 	}

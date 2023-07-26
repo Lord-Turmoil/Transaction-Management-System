@@ -15,4 +15,12 @@ public class User {
 		Merchant,
 		Customer
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof User) {
+			return this.id.equals(((User) obj).id);
+		}
+		return false;
+	}
 }

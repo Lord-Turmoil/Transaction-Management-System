@@ -25,4 +25,9 @@ public class Errors {
 	public static final String IllegalIdentity = "Illegal identity";
 
 	public static final String PermissionDenied = "Permission denied";
+	public static final String UserNotMerchant = "Kakafee number does not belong to a Merchant";
+
+	public static final String IllegalShopName = "Illegal shop name";
+	public static final String IllegalShopId = "Illegal shop id";
+	public static final String NoSuchShopId = "Shop id not exists";
 }

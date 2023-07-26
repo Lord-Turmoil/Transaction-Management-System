@@ -14,6 +14,7 @@ public interface ICommodityService extends IService {
 
 	void release(int shopId, int productId, int stock) throws ExecutionException;
 
+	void list() throws ExecutionException;
 	void list(String id) throws ExecutionException;    // Kakafee id
 
 	void list(int shopId) throws ExecutionException;

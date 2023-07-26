@@ -37,6 +37,14 @@ public class Shop {
 		return "S-" + id;
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof Shop) {
+			return this.id == ((Shop) obj).id;
+		}
+		return false;
+	}
+
 	public enum Status {
 		Open,
 		Closed

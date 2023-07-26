@@ -28,10 +28,11 @@ public class ReleaseCommodityCommand extends BaseCommand implements IExecutable 
 
 	@Override
 	public void execute(List<String> args) throws ExecutionException, TerminationException {
-		if (!(args.size() == 3 || args.size() == 4)) {
-			throw new ExecutionException(Errors.IllegalArgumentCount);
+		switch (args.size()) {
+			case 3 -> executeThree(args);
+			case 4 -> executeFour(args);
+			default -> throw new ExecutionException(Errors.IllegalArgumentCount);
 		}
-
 	}
 
 	private void executeThree(List<String> args) throws ExecutionException {

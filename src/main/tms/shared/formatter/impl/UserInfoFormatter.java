@@ -11,15 +11,15 @@ import java.io.PrintStream;
 
 public class UserInfoFormatter implements IFormatter {
 	@Override
-	public void format(PrintStream printer, Object obj) {
+	public String format(Object obj) {
 		User user;
 		try {
 			user = (User) obj;
 		} catch (ClassCastException e) {
 			throw new RuntimeException(obj + " is not User", e);
 		}
-		printer.println("Name: " + user.name);
-		printer.println("Kakafee number: " + user.id);
-		printer.println("Type: " + user.role);
+		return "Name: " + user.name + '\n' +
+				"Kakafee number: " + user.id + '\n' +
+				"Type: " + user.role;
 	}
 }

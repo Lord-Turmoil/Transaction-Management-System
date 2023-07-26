@@ -9,6 +9,7 @@ import ioc.IContainer;
 import tms.exec.service.BaseService;
 import tms.model.entity.User;
 import tms.shared.Errors;
+import tms.shared.formatter.impl.PrintHandler;
 import tms.shared.formatter.impl.UserInfoFormatter;
 import tms.shared.validator.impl.IdValidator;
 import tms.shared.validator.impl.PasswordValidator;
@@ -138,6 +139,6 @@ public class AccountService extends BaseService implements IAccountService {
 			}
 		}
 
-		new UserInfoFormatter().format(printer, target);
+		new PrintHandler(printer).print(target, new UserInfoFormatter());
 	}
 }

@@ -9,6 +9,8 @@ import host.exec.TerminationException;
 import ioc.IContainer;
 import tms.exec.cmd.BaseCommand;
 import tms.exec.service.impl.IShopService;
+import tms.shared.Errors;
+import tms.shared.validator.impl.ShopNameValidator;
 
 import java.util.List;
 
@@ -22,6 +24,13 @@ public class RegisterShopCommand extends BaseCommand {
 
 	@Override
 	public void execute(List<String> args) throws ExecutionException, TerminationException {
-		service.register(args);
+		if (args.size() != 1) {
+			throw new ExecutionException(Errors.IllegalArgumentCount);
+		}
+		var name = args.get(0);
+		if (!new ShopNameValidator().check(name)) {
+			throw new ExecutionException(Errors.IllegalShopName);
+		}
+		service.register(name);
 	}
 }

@@ -7,12 +7,12 @@ package tms.exec.service.impl;
 import host.exec.ExecutionException;
 import tms.exec.service.IService;
 
-import java.util.List;
-
 public interface IShopService extends IService {
-	void register(List<String> args) throws ExecutionException;
+	void register(String name) throws ExecutionException;
 
-	void list(List<String> args) throws ExecutionException;
+	void list() throws ExecutionException;
 
-	void cancel(List<String> args) throws ExecutionException;
+	void list(String id) throws ExecutionException;
+
+	void cancel(int id) throws ExecutionException;
 }

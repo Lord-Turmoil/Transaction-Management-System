@@ -7,9 +7,7 @@ package tms.exec.service.impl;
 import host.exec.ExecutionException;
 import tms.exec.service.IService;
 
-import java.util.List;
-
 
 public interface IExitService extends IService {
-	void exit(List<String> args) throws ExecutionException;
+	void exit() throws ExecutionException;
 }

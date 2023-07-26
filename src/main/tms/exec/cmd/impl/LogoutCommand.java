@@ -9,6 +9,7 @@ import host.exec.TerminationException;
 import ioc.IContainer;
 import tms.exec.cmd.BaseCommand;
 import tms.exec.service.impl.IAccountService;
+import tms.shared.Errors;
 
 import java.util.List;
 
@@ -22,6 +23,9 @@ public class LogoutCommand extends BaseCommand {
 
 	@Override
 	public void execute(List<String> args) throws ExecutionException, TerminationException {
-		service.logout(args);
+		if (args.size() > 0) {
+			throw new ExecutionException(Errors.IllegalArgumentCount);
+		}
+		service.logout();
 	}
 }

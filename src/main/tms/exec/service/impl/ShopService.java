@@ -15,11 +15,9 @@ import tms.shared.formatter.IFormatter;
 import tms.shared.formatter.impl.PrintHandler;
 import tms.shared.formatter.impl.ShopAdminFormatter;
 import tms.shared.formatter.impl.ShopFormatter;
-import tms.shared.validator.impl.ShopNameValidator;
 import uow.exception.NoSuchEntityException;
 
 import java.util.Comparator;
-import java.util.List;
 
 public class ShopService extends BaseService implements IShopService {
 	public ShopService(IContainer container) {
@@ -27,10 +25,7 @@ public class ShopService extends BaseService implements IShopService {
 	}
 
 	@Override
-	public void register(List<String> args) throws ExecutionException {
-		if (args.size() != 1) {
-			throw new ExecutionException(Errors.IllegalArgumentCount);
-		}
+	public void register(String name) throws ExecutionException {
 		var user = getCurrentUser();
 		if (user == null) {
 			throw new ExecutionException(Errors.NotLoggedIn);
@@ -44,38 +39,34 @@ public class ShopService extends BaseService implements IShopService {
 			throw new ExecutionException("Shop number reached limit");
 		}
 
-		var name = args.get(0);
-		if (!new ShopNameValidator().check(name)) {
-			throw new ExecutionException(Errors.IllegalShopName);
-		}
-
 		repo.add(Shop.create(name, user));
 
 		printer.println("Register shop success");
 	}
 
 	@Override
-	public void list(List<String> args) throws ExecutionException {
-		if (args.size() > 1) {
-			throw new ExecutionException(Errors.IllegalArgumentCount);
-		}
+	public void list() throws ExecutionException {
 		var user = getCurrentUser();
 		if (user == null) {
 			throw new ExecutionException(Errors.NotLoggedIn);
 		}
-
-		if (args.size() == 0) {
-			if (user.role == User.Role.Merchant) {
-				listById(user.id, user);
-			} else {
-				listAll(user);
-			}
+		if (user.role == User.Role.Merchant) {
+			listById(user.id, user);
 		} else {
-			if (user.role != User.Role.Administrator) {
-				throw new ExecutionException(Errors.PermissionDenied);
-			}
-			listById(args.get(1), user);
+			listAll(user);
 		}
+	}
+
+	@Override
+	public void list(String id) throws ExecutionException {
+		var user = getCurrentUser();
+		if (user == null) {
+			throw new ExecutionException(Errors.NotLoggedIn);
+		}
+		if (user.role != User.Role.Administrator) {
+			throw new ExecutionException(Errors.PermissionDenied);
+		}
+		listById(id, user);
 	}
 
 	// list all shops of merchant
@@ -109,22 +100,13 @@ public class ShopService extends BaseService implements IShopService {
 	}
 
 	@Override
-	public void cancel(List<String> args) throws ExecutionException {
-		if (args.size() != 1) {
-			throw new ExecutionException(Errors.IllegalArgumentCount);
-		}
+	public void cancel(int id) throws ExecutionException {
 		var user = getCurrentUser();
 		if (user == null) {
 			throw new ExecutionException(Errors.NotLoggedIn);
 		}
 		if (!(user.role == User.Role.Merchant || user.role == User.Role.Administrator)) {
 			throw new ExecutionException(Errors.PermissionDenied);
-		}
-		int id;
-		try {
-			id = Shop.parseId(args.get(0));
-		} catch (NumberFormatException e) {
-			throw new ExecutionException(Errors.IllegalShopId);
 		}
 		var shop = unitOfWork.getRepository(Shop.class).find(x -> x.id == id);
 		if (shop == null || shop.status == Shop.Status.Closed) {

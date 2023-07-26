@@ -11,11 +11,6 @@ import tms.model.entity.User;
 import tms.shared.Errors;
 import tms.shared.formatter.impl.PrintHandler;
 import tms.shared.formatter.impl.UserInfoFormatter;
-import tms.shared.validator.impl.IdValidator;
-import tms.shared.validator.impl.PasswordValidator;
-import tms.shared.validator.impl.UserNameValidator;
-
-import java.util.List;
 
 public class AccountService extends BaseService implements IAccountService {
 	public AccountService(IContainer container) {
@@ -23,48 +18,24 @@ public class AccountService extends BaseService implements IAccountService {
 	}
 
 	@Override
-	public void register(List<String> args) throws ExecutionException {
-		if (args.size() != 5) {
-			throw new ExecutionException(Errors.IllegalArgumentCount);
-		}
+	public void register(String id, String name, String password, String confirm, User.Role role) throws ExecutionException {
 		if (isLoggedIn()) {
 			throw new ExecutionException(Errors.AlreadyLoggedIn);
 		}
 
 		var user = new User();
-		var id = args.get(0);
-		if (!new IdValidator().check(id)) {
-			throw new ExecutionException(Errors.IllegalId);
-		}
+
 		var repo = unitOfWork.getRepository(User.class);
 		if (repo.exists(x -> x.id.equals(id))) {
 			throw new ExecutionException(Errors.DuplicatedId);
 		}
 		user.id = id;
-
-		var name = args.get(1);
-		if (!new UserNameValidator().check(name)) {
-			throw new ExecutionException(Errors.IllegalName);
-		}
 		user.name = name;
-
-		var password = args.get(2);
-		if (!new PasswordValidator().check(password)) {
-			throw new ExecutionException(Errors.IllegalPassword);
-		}
-		var confirm = args.get(3);
 		if (!password.equals(confirm)) {
 			throw new ExecutionException(Errors.PasswordInconsistent);
 		}
 		user.password = password;
-
-		var type = args.get(4);
-		user.role = switch (type) {
-			case "Administrator" -> User.Role.Administrator;
-			case "Merchant" -> User.Role.Merchant;
-			case "Customer" -> User.Role.Customer;
-			default -> throw new ExecutionException(Errors.IllegalIdentity);
-		};
+		user.role = role;
 
 		// save to database
 		repo.add(user);
@@ -73,37 +44,25 @@ public class AccountService extends BaseService implements IAccountService {
 	}
 
 	@Override
-	public void login(List<String> args) throws ExecutionException {
-		if (args.size() != 2) {
-			throw new ExecutionException(Errors.IllegalArgumentCount);
-		}
+	public void login(String id, String password) throws ExecutionException {
 		if (isLoggedIn()) {
 			throw new ExecutionException(Errors.AlreadyLoggedIn);
-		}
-
-		var id = args.get(0);
-		if (!new IdValidator().check(id)) {
-			throw new ExecutionException(Errors.IllegalId);
 		}
 
 		var user = unitOfWork.getRepository(User.class).find(x -> x.id.equals(id));
 		if (user == null) {
 			throw new ExecutionException(Errors.NoSuchUser);
 		}
-		var password = args.get(1);
 		if (!user.password.equals(password)) {
 			throw new ExecutionException(Errors.WrongPassword);
 		}
-
 		setCurrentUser(user);
+
 		printer.println("Welcome to TMS");
 	}
 
 	@Override
-	public void logout(List<String> args) throws ExecutionException {
-		if (args.size() > 0) {
-			throw new ExecutionException(Errors.IllegalArgumentCount);
-		}
+	public void logout() throws ExecutionException {
 		if (!isLoggedIn()) {
 			throw new ExecutionException(Errors.NotLoggedIn);
 		}
@@ -113,32 +72,27 @@ public class AccountService extends BaseService implements IAccountService {
 	}
 
 	@Override
-	public void printInfo(List<String> args) throws ExecutionException {
-		if (args.size() > 1) {
-			throw new ExecutionException(Errors.IllegalArgumentCount);
-		}
+	public void printInfo() throws ExecutionException {
 		User user = getCurrentUser();
 		if (user == null) {
 			throw new ExecutionException(Errors.NotLoggedIn);
 		}
+		new PrintHandler(printer).print(user, new UserInfoFormatter());
+	}
 
-		User target = null;
-		if (args.size() == 0) {
-			target = user;  // user is not null here
-		} else {
-			if (user.role != User.Role.Administrator) {
-				throw new ExecutionException(Errors.PermissionDenied);
-			}
-			var id = args.get(0);
-			if (!new IdValidator().check(id)) {
-				throw new ExecutionException(Errors.IllegalId);
-			}
-			target = unitOfWork.getRepository(User.class).find(x -> x.id.equals(id));
-			if (target == null) {
-				throw new ExecutionException(Errors.NoSuchUser);
-			}
+	@Override
+	public void printInfo(String id) throws ExecutionException {
+		User user = getCurrentUser();
+		if (user == null) {
+			throw new ExecutionException(Errors.NotLoggedIn);
 		}
-
+		if (user.role != User.Role.Administrator) {
+			throw new ExecutionException(Errors.PermissionDenied);
+		}
+		var target = unitOfWork.getRepository(User.class).find(x -> x.id.equals(id));
+		if (target == null) {
+			throw new ExecutionException(Errors.NoSuchUser);
+		}
 		new PrintHandler(printer).print(target, new UserInfoFormatter());
 	}
 }

@@ -31,13 +31,7 @@ public class CommodityService extends BaseService implements ICommodityService {
 
 	@Override
 	public void release(String shopIdString, String name, String priceString, String stockString) throws ExecutionException {
-		var user = getCurrentUser();
-		if (user == null) {
-			throw new ExecutionException(Errors.NotLoggedIn);
-		}
-		if (user.role != User.Role.Merchant) {
-			throw new ExecutionException(Errors.PermissionDenied);
-		}
+		var user = getRequiredUser(User.Role.Merchant);
 
 		int shopId = ShopUtil.parseShopId(shopIdString);
 		var shopRepo = unitOfWork.getRepository(Shop.class);
@@ -68,13 +62,7 @@ public class CommodityService extends BaseService implements ICommodityService {
 
 	@Override
 	public void release(String shopIdString, String productIdString, String stockString) throws ExecutionException {
-		var user = getCurrentUser();
-		if (user == null) {
-			throw new ExecutionException(Errors.NotLoggedIn);
-		}
-		if (user.role != User.Role.Merchant) {
-			throw new ExecutionException(Errors.PermissionDenied);
-		}
+		var user = getRequiredUser(User.Role.Merchant);
 
 		var shopId = ShopUtil.parseShopId(shopIdString);
 		var shopRepo = unitOfWork.getRepository(Shop.class);
@@ -103,10 +91,8 @@ public class CommodityService extends BaseService implements ICommodityService {
 
 	@Override
 	public void list() throws ExecutionException {
-		var user = getCurrentUser();
-		if (user == null) {
-			throw new ExecutionException(Errors.NotLoggedIn);
-		}
+		var user = getRequiredUser();
+
 		if (user.role == User.Role.Merchant) {
 			listCommodity(user);
 		} else {
@@ -116,11 +102,7 @@ public class CommodityService extends BaseService implements ICommodityService {
 
 	@Override
 	public void listById(String id) throws ExecutionException {
-		var user = getCurrentUser();
-		if (user == null) {
-			throw new ExecutionException(Errors.NotLoggedIn);
-		}
-		if (user.role != User.Role.Administrator) {
+		if (!checkPermission(User.Role.Administrator)) {
 			throw new ExecutionException(Errors.PermissionDenied);
 		}
 
@@ -141,10 +123,7 @@ public class CommodityService extends BaseService implements ICommodityService {
 
 	@Override
 	public void listByShop(String shopIdString) throws ExecutionException {
-		var user = getCurrentUser();
-		if (user == null) {
-			throw new ExecutionException(Errors.NotLoggedIn);
-		}
+		var user = getRequiredUser();
 
 		int shopId = ShopUtil.parseShopId(shopIdString);
 		var shop = unitOfWork.getRepository(Shop.class).find(x -> x.id == shopId);
@@ -182,10 +161,7 @@ public class CommodityService extends BaseService implements ICommodityService {
 
 	@Override
 	public void search(String name) throws ExecutionException {
-		var user = getCurrentUser();
-		if (user == null) {
-			throw new ExecutionException(Errors.NotLoggedIn);
-		}
+		var user = getRequiredUser();
 
 		List<Commodity> commodities;
 		var repo = unitOfWork.getRepository(Commodity.class);

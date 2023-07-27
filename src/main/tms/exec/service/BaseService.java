@@ -4,12 +4,15 @@
 
 package tms.exec.service;
 
+import host.exec.ExecutionException;
 import ioc.IContainer;
 import tms.model.entity.LoginStatus;
 import tms.model.entity.User;
+import tms.shared.Errors;
 import uow.IUnitOfWork;
 
 import java.io.PrintStream;
+import java.util.Arrays;
 import java.util.logging.Logger;
 
 public class BaseService implements IService {
@@ -25,19 +28,59 @@ public class BaseService implements IService {
 		this.logger = container.resolve(Logger.class);
 	}
 
-	public LoginStatus getLoginStatus() {
+	protected LoginStatus getLoginStatus() {
 		return container.resolveRequired(LoginStatus.class);
 	}
 
-	public User getCurrentUser() {
+	protected User getCurrentUser() {
 		return getLoginStatus().getUser();
 	}
 
-	public void setCurrentUser(User user) {
+	protected void setCurrentUser(User user) {
 		getLoginStatus().setUser(user);
 	}
 
-	public boolean isLoggedIn() {
+	protected boolean isLoggedIn() {
 		return getCurrentUser() != null;
+	}
+
+	protected User getRequiredUser() throws ExecutionException {
+		var user = getCurrentUser();
+		if (user == null) {
+			throw new ExecutionException(Errors.NotLoggedIn);
+		}
+		return user;
+	}
+
+	protected User getRequiredUser(User.Role role) throws ExecutionException {
+		var user = getRequiredUser();
+		if (user.role != role) {
+			throw new ExecutionException(Errors.PermissionDenied);
+		}
+		return user;
+	}
+
+	protected User getRequiredUser(User.Role... roles) throws ExecutionException {
+		var user = getRequiredUser();
+		if (Arrays.stream(roles).noneMatch(x -> x == user.role)) {
+			throw new ExecutionException(Errors.PermissionDenied);
+		}
+		return user;
+	}
+
+	protected boolean checkPermission(User.Role role) throws ExecutionException {
+		var user = getRequiredUser();
+		if (user.role != role) {
+			return false;
+		}
+		return true;
+	}
+
+	protected boolean checkPermission(User.Role... roles) throws ExecutionException {
+		var user = getRequiredUser();
+		if (Arrays.stream(roles).noneMatch(x -> x == user.role)) {
+			throw new ExecutionException(Errors.PermissionDenied);
+		}
+		return true;
 	}
 }

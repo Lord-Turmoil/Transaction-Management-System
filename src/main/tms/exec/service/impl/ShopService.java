@@ -28,13 +28,7 @@ public class ShopService extends BaseService implements IShopService {
 
 	@Override
 	public void register(String name) throws ExecutionException {
-		var user = getCurrentUser();
-		if (user == null) {
-			throw new ExecutionException(Errors.NotLoggedIn);
-		}
-		if (user.role != User.Role.Merchant) {
-			throw new ExecutionException(Errors.PermissionDenied);
-		}
+		var user = getRequiredUser(User.Role.Merchant);
 
 		var repo = unitOfWork.getRepository(Shop.class);
 		if (repo.count(x -> x.status == Shop.Status.Open) >= Globals.MAX_SHOP_NUM) {
@@ -59,7 +53,7 @@ public class ShopService extends BaseService implements IShopService {
 			throw new ExecutionException(Errors.NotLoggedIn);
 		}
 		if (user.role == User.Role.Merchant) {
-			listById(user.id, user);
+			listById(user.id);
 		} else {
 			listAll(user);
 		}
@@ -67,21 +61,19 @@ public class ShopService extends BaseService implements IShopService {
 
 	@Override
 	public void list(String id) throws ExecutionException {
-		var user = getCurrentUser();
-		if (user == null) {
-			throw new ExecutionException(Errors.NotLoggedIn);
-		}
-		if (user.role != User.Role.Administrator) {
+		if (!checkPermission(User.Role.Administrator)) {
 			throw new ExecutionException(Errors.PermissionDenied);
 		}
+
 		if (!new IdValidator().check(id)) {
 			throw new ExecutionException(Errors.IllegalId);
 		}
-		listById(id, user);
+
+		listById(id);
 	}
 
 	// list all shops of merchant
-	private void listById(String id, User initiator) throws ExecutionException {
+	private void listById(String id) throws ExecutionException {
 		User user;
 		try {
 			user = unitOfWork.getRepository(User.class).get(x -> x.id.equals(id));
@@ -112,13 +104,8 @@ public class ShopService extends BaseService implements IShopService {
 
 	@Override
 	public void cancel(String shopIdString) throws ExecutionException {
-		var user = getCurrentUser();
-		if (user == null) {
-			throw new ExecutionException(Errors.NotLoggedIn);
-		}
-		if (!(user.role == User.Role.Merchant || user.role == User.Role.Administrator)) {
-			throw new ExecutionException(Errors.PermissionDenied);
-		}
+		var user = getRequiredUser(User.Role.Merchant, User.Role.Administrator);
+
 		int id;
 		try {
 			id = Shop.parseId(shopIdString);

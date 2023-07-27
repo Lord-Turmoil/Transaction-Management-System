@@ -15,6 +15,7 @@ import tms.shared.formatter.IFormatter;
 import tms.shared.formatter.impl.PrintHandler;
 import tms.shared.formatter.impl.ShopAdminFormatter;
 import tms.shared.formatter.impl.ShopFormatter;
+import tms.shared.validator.impl.ShopNameValidator;
 import uow.exception.NoSuchEntityException;
 
 import java.util.Comparator;
@@ -37,6 +38,12 @@ public class ShopService extends BaseService implements IShopService {
 		var repo = unitOfWork.getRepository(Shop.class);
 		if (repo.count(x -> x.status == Shop.Status.Open) >= Globals.MAX_SHOP_NUM) {
 			throw new ExecutionException("Shop number reached limit");
+		}
+		if (!new ShopNameValidator().check(name)) {
+			throw new ExecutionException(Errors.IllegalShopName);
+		}
+		if (repo.exists(x -> x.name.equals(name))) {
+			throw new ExecutionException(Errors.DuplicatedShopName);
 		}
 
 		repo.add(Shop.create(name, user));

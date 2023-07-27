@@ -28,9 +28,6 @@ public class RegisterShopCommand extends BaseCommand {
 			throw new ExecutionException(Errors.IllegalArgumentCount);
 		}
 		var name = args.get(0);
-		if (!new ShopNameValidator().check(name)) {
-			throw new ExecutionException(Errors.IllegalShopName);
-		}
 		service.register(name);
 	}
 }

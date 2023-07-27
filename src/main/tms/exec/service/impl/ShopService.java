@@ -15,6 +15,7 @@ import tms.shared.formatter.IFormatter;
 import tms.shared.formatter.impl.PrintHandler;
 import tms.shared.formatter.impl.ShopAdminFormatter;
 import tms.shared.formatter.impl.ShopFormatter;
+import tms.shared.validator.impl.IdValidator;
 import tms.shared.validator.impl.ShopNameValidator;
 import uow.exception.NoSuchEntityException;
 
@@ -73,6 +74,9 @@ public class ShopService extends BaseService implements IShopService {
 		if (user.role != User.Role.Administrator) {
 			throw new ExecutionException(Errors.PermissionDenied);
 		}
+		if (!new IdValidator().check(id)) {
+			throw new ExecutionException(Errors.IllegalId);
+		}
 		listById(id, user);
 	}
 
@@ -107,13 +111,19 @@ public class ShopService extends BaseService implements IShopService {
 	}
 
 	@Override
-	public void cancel(int id) throws ExecutionException {
+	public void cancel(String shopIdString) throws ExecutionException {
 		var user = getCurrentUser();
 		if (user == null) {
 			throw new ExecutionException(Errors.NotLoggedIn);
 		}
 		if (!(user.role == User.Role.Merchant || user.role == User.Role.Administrator)) {
 			throw new ExecutionException(Errors.PermissionDenied);
+		}
+		int id;
+		try {
+			id = Shop.parseId(shopIdString);
+		} catch (NumberFormatException e) {
+			throw new ExecutionException(Errors.IllegalShopId, e);
 		}
 		var shop = unitOfWork.getRepository(Shop.class).find(x -> x.id == id);
 		if (shop == null || shop.status == Shop.Status.Closed) {

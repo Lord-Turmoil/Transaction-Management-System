@@ -9,7 +9,7 @@ import tms.exec.service.IService;
 import tms.model.entity.User;
 
 public interface IAccountService extends IService {
-	void register(String id, String name, String password, String confirm, User.Role role) throws ExecutionException;
+	void register(String id, String name, String password, String confirm, String role) throws ExecutionException;
 
 	void login(String id, String password) throws ExecutionException;
 

@@ -27,7 +27,6 @@ public class RegisterShopCommand extends BaseCommand {
 		if (args.size() != 1) {
 			throw new ExecutionException(Errors.IllegalArgumentCount);
 		}
-		var name = args.get(0);
-		service.register(name);
+		service.register(args.get(0));
 	}
 }

@@ -4,8 +4,10 @@
 
 package tms.exec.service.impl.util;
 
+import host.exec.ExecutionException;
 import tms.model.entity.Shop;
 import tms.model.entity.User;
+import tms.shared.Errors;
 
 public class ShopUtil {
 	private ShopUtil() {}
@@ -15,5 +17,13 @@ public class ShopUtil {
 			return false;
 		}
 		return shop.owner.equals(user);
+	}
+
+	public static int parseShopId(String shopIdString) throws ExecutionException {
+		try {
+			return Shop.parseId(shopIdString);
+		} catch (NumberFormatException e) {
+			throw new ExecutionException(Errors.IllegalShopId);
+		}
 	}
 }

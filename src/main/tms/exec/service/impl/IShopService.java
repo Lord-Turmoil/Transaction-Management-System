@@ -14,5 +14,5 @@ public interface IShopService extends IService {
 
 	void list(String id) throws ExecutionException;
 
-	void cancel(int id) throws ExecutionException;
+	void cancel(String shopIdString) throws ExecutionException;
 }

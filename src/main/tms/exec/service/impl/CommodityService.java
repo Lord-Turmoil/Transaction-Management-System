@@ -17,6 +17,8 @@ import tms.shared.Errors;
 import tms.shared.Globals;
 import tms.shared.formatter.impl.CommodityFormatter;
 import tms.shared.formatter.impl.PrintHandler;
+import tms.shared.validator.impl.IdValidator;
+import tms.shared.validator.impl.ShopNameValidator;
 
 import java.math.BigDecimal;
 import java.util.Comparator;
@@ -28,7 +30,7 @@ public class CommodityService extends BaseService implements ICommodityService {
 	}
 
 	@Override
-	public void release(int shopId, String name, BigDecimal price, int stock) throws ExecutionException {
+	public void release(String shopIdString, String name, String priceString, String stockString) throws ExecutionException {
 		var user = getCurrentUser();
 		if (user == null) {
 			throw new ExecutionException(Errors.NotLoggedIn);
@@ -37,17 +39,27 @@ public class CommodityService extends BaseService implements ICommodityService {
 			throw new ExecutionException(Errors.PermissionDenied);
 		}
 
+		int shopId = ShopUtil.parseShopId(shopIdString);
 		var shopRepo = unitOfWork.getRepository(Shop.class);
 		var shop = shopRepo.find(x -> x.id == shopId);    // may return null here
 		if (!ShopUtil.isValidShop(shop, user)) {
 			throw new ExecutionException(Errors.NoSuchShopId);
 		}
+
+		if (!new ShopNameValidator().check(name)) {
+			throw new ExecutionException(Errors.IllegalShopName);
+		}
+
+		BigDecimal price = ProductUtil.parsePrice(priceString);
+
+		var product = Product.create(name, price, user);
+		unitOfWork.getRepository(Product.class).add(product);
+
+		int stock = ProductUtil.parseStock(stockString);
 		if (stock > Globals.MAX_PRODUCT_STOCK) {
 			throw new ExecutionException(Errors.IllegalProductCount);
 		}
 
-		var product = Product.create(name, price, user);
-		unitOfWork.getRepository(Product.class).add(product);
 		var commodity = Commodity.create(shop, stock, product);
 		unitOfWork.getRepository(Commodity.class).add(commodity);
 
@@ -55,7 +67,7 @@ public class CommodityService extends BaseService implements ICommodityService {
 	}
 
 	@Override
-	public void release(int shopId, int productId, int stock) throws ExecutionException {
+	public void release(String shopIdString, String productIdString, String stockString) throws ExecutionException {
 		var user = getCurrentUser();
 		if (user == null) {
 			throw new ExecutionException(Errors.NotLoggedIn);
@@ -64,18 +76,21 @@ public class CommodityService extends BaseService implements ICommodityService {
 			throw new ExecutionException(Errors.PermissionDenied);
 		}
 
+		var shopId = ShopUtil.parseShopId(shopIdString);
 		var shopRepo = unitOfWork.getRepository(Shop.class);
 		var shop = shopRepo.find(x -> x.id == shopId);    // may return null here
 		if (!ShopUtil.isValidShop(shop, user)) {
 			throw new ExecutionException(Errors.NoSuchShopId);
 		}
 
+		var productId = ProductUtil.parseProductId(productIdString);
 		var productRepo = unitOfWork.getRepository(Product.class);
 		var product = productRepo.find(x -> x.id == productId);
 		if (!ProductUtil.isValidProduct(product, user)) {
 			throw new ExecutionException(Errors.NoSuchProductId);
 		}
 
+		int stock = ProductUtil.parseStock(stockString);
 		if (product.totalStock + stock > Globals.MAX_PRODUCT_STOCK) {
 			throw new ExecutionException(Errors.IllegalProductCount);
 		}
@@ -100,7 +115,7 @@ public class CommodityService extends BaseService implements ICommodityService {
 	}
 
 	@Override
-	public void list(String id) throws ExecutionException {
+	public void listById(String id) throws ExecutionException {
 		var user = getCurrentUser();
 		if (user == null) {
 			throw new ExecutionException(Errors.NotLoggedIn);
@@ -108,6 +123,11 @@ public class CommodityService extends BaseService implements ICommodityService {
 		if (user.role != User.Role.Administrator) {
 			throw new ExecutionException(Errors.PermissionDenied);
 		}
+
+		if (!new IdValidator().check(id)) {
+			throw new ExecutionException(Errors.IllegalId);
+		}
+
 		var target = unitOfWork.getRepository(User.class).find(x -> x.id.equals(id));
 		if (target == null) {
 			throw new ExecutionException(Errors.NoSuchUser);
@@ -115,22 +135,27 @@ public class CommodityService extends BaseService implements ICommodityService {
 		if (target.role != User.Role.Merchant) {
 			throw new ExecutionException(Errors.UserNotMerchant);
 		}
+
 		listCommodity(target);
 	}
 
 	@Override
-	public void list(int shopId) throws ExecutionException {
+	public void listByShop(String shopIdString) throws ExecutionException {
 		var user = getCurrentUser();
 		if (user == null) {
 			throw new ExecutionException(Errors.NotLoggedIn);
 		}
+
+		int shopId = ShopUtil.parseShopId(shopIdString);
 		var shop = unitOfWork.getRepository(Shop.class).find(x -> x.id == shopId);
 		if (shop == null || shop.status == Shop.Status.Closed) {
 			throw new ExecutionException(Errors.NoSuchShopId);
 		}
+
 		if (user.role == User.Role.Merchant && !shop.owner.equals(user)) {
 			throw new ExecutionException(Errors.PermissionDenied);
 		}
+
 		listCommodity(shop);
 	}
 

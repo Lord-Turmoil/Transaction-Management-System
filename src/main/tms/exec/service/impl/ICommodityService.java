@@ -10,15 +10,15 @@ import tms.exec.service.IService;
 import java.math.BigDecimal;
 
 public interface ICommodityService extends IService {
-	void release(int shopId, String name, BigDecimal price, int stock) throws ExecutionException;
+	void release(String shopIdString, String name, String priceString, String stockString) throws ExecutionException;
 
-	void release(int shopId, int productId, int stock) throws ExecutionException;
+	void release(String shopIdString, String productIdString, String stockString) throws ExecutionException;
 
 	void list() throws ExecutionException;
 
-	void list(String id) throws ExecutionException;    // Kakafee id
+	void listById(String id) throws ExecutionException;    // Kakafee id
 
-	void list(int shopId) throws ExecutionException;
+	void listByShop(String shopIdString) throws ExecutionException;
 
 	void search(String name) throws ExecutionException;
 }

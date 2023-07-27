@@ -29,59 +29,9 @@ public class ReleaseCommodityCommand extends BaseCommand implements IExecutable 
 	@Override
 	public void execute(List<String> args) throws ExecutionException, TerminationException {
 		switch (args.size()) {
-			case 3 -> executeThree(args);
-			case 4 -> executeFour(args);
+			case 3 -> service.release(args.get(0), args.get(1), args.get(2));
+			case 4 -> service.release(args.get(0), args.get(1), args.get(2), args.get(3));
 			default -> throw new ExecutionException(Errors.IllegalArgumentCount);
 		}
-	}
-
-	private void executeThree(List<String> args) throws ExecutionException {
-		int shopId;
-		try {
-			shopId = Shop.parseId(args.get(0));
-		} catch (NumberFormatException e) {
-			throw new ExecutionException(Errors.IllegalShopId);
-		}
-
-		int productId;
-		try {
-			productId = Product.parseId(args.get(1));
-		} catch (NumberFormatException e) {
-			throw new ExecutionException(Errors.IllegalProductId);
-		}
-
-		int stock;
-		try {
-			stock = Integer.parseInt(args.get(2));
-		} catch (NumberFormatException e) {
-			throw new ExecutionException(Errors.IllegalProductCount);
-		}
-
-		service.release(shopId, productId, stock);
-	}
-
-	private void executeFour(List<String> args) throws ExecutionException {
-		int shopId;
-		try {
-			shopId = Shop.parseId(args.get(0));
-		} catch (NumberFormatException e) {
-			throw new ExecutionException(Errors.IllegalShopId);
-		}
-
-		String name = args.get(1);
-
-		if (!new PriceValidator().check(args.get(2))) {
-			throw new ExecutionException(Errors.IllegalProductPrice);
-		}
-		BigDecimal price = new BigDecimal(args.get(2));
-
-		int stock;
-		try {
-			stock = Integer.parseInt(args.get(2));
-		} catch (NumberFormatException e) {
-			throw new ExecutionException(Errors.IllegalProductCount);
-		}
-
-		service.release(shopId, name, price, stock);
 	}
 }

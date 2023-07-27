@@ -30,25 +30,6 @@ public class RegisterCommand extends BaseCommand {
 		if (args.size() != 5) {
 			throw new ExecutionException(Errors.IllegalArgumentCount);
 		}
-		var id = args.get(0);
-		if (!new IdValidator().check(id)) {
-			throw new ExecutionException(Errors.IllegalId);
-		}
-		var name = args.get(1);
-		if (!new UserNameValidator().check(name)) {
-			throw new ExecutionException(Errors.IllegalName);
-		}
-		var password = args.get(2);
-		if (!new PasswordValidator().check(password)) {
-			throw new ExecutionException(Errors.IllegalPassword);
-		}
-		var confirm = args.get(3);
-		User.Role role = switch (args.get(4)) {
-			case "Administrator" -> User.Role.Administrator;
-			case "Merchant" -> User.Role.Merchant;
-			case "Customer" -> User.Role.Customer;
-			default -> throw new ExecutionException(Errors.IllegalIdentity);
-		};
-		service.register(id, name, password, confirm, role);
+		service.register(args.get(0), args.get(1), args.get(2), args.get(3), args.get(4));
 	}
 }

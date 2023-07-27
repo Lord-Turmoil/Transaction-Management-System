@@ -27,13 +27,6 @@ public class LoginCommand extends BaseCommand {
 		if (args.size() != 2) {
 			throw new ExecutionException(Errors.IllegalArgumentCount);
 		}
-
-		var id = args.get(0);
-		if (!new IdValidator().check(id)) {
-			throw new ExecutionException(Errors.IllegalId);
-		}
-		var password = args.get(1);
-
-		service.login(id, password);
+		service.login(args.get(0), args.get(1));
 	}
 }

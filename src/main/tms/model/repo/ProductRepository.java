@@ -10,6 +10,6 @@ import uow.Repository;
 
 public class ProductRepository extends Repository<Product> {
 	public ProductRepository(TMSContext dbContext) {
-		super(dbContext, TMSContext.Product);
+		super(dbContext, TMSContext.ProductTable);
 	}
 }

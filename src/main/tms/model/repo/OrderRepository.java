@@ -5,11 +5,11 @@
 package tms.model.repo;
 
 import tms.model.TMSContext;
-import tms.model.entity.Shop;
+import tms.model.entity.Order;
 import uow.Repository;
 
-public class ShopRepository extends Repository<Shop> {
-	public ShopRepository(TMSContext dbContext) {
-		super(dbContext, TMSContext.ShopTable);
+public class OrderRepository extends Repository<Order> {
+	public OrderRepository(TMSContext dbContext) {
+		super(dbContext, TMSContext.OrderTable);
 	}
 }

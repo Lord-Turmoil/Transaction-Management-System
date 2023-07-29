@@ -4,20 +4,20 @@
 
 package tms.model;
 
-import tms.model.entity.Commodity;
-import tms.model.entity.Product;
-import tms.model.entity.Shop;
-import tms.model.entity.User;
+import tms.model.entity.*;
 import uow.DbContext;
 import uow.DbSet;
 
 public class TMSContext extends DbContext {
-	public static final String User = "users";
-	public static final String Shop = "shops";
-	public static final String Product = "products";
-	public static final String Commodity = "commodities";
+	public static final String UserTable = "users";
+	public static final String ShopTable = "shops";
+	public static final String ProductTable = "products";
+	public static final String CommodityTable = "commodities";
+	public static final String OrderTable = "orders";
+
 	public DbSet<User> users;
 	public DbSet<Shop> shops;
 	public DbSet<Product> products;
 	public DbSet<Commodity> commodities;
+	public DbSet<Order> orders;
 }

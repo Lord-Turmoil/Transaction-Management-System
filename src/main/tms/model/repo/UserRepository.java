@@ -10,6 +10,6 @@ import uow.Repository;
 
 public class UserRepository extends Repository<User> {
 	public UserRepository(TMSContext dbContext) {
-		super(dbContext, TMSContext.User);
+		super(dbContext, TMSContext.UserTable);
 	}
 }

@@ -10,6 +10,6 @@ import uow.Repository;
 
 public class CommodityRepository extends Repository<Commodity> {
 	public CommodityRepository(TMSContext dbContext) {
-		super(dbContext, TMSContext.Commodity);
+		super(dbContext, TMSContext.CommodityTable);
 	}
 }

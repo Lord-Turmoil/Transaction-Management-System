@@ -9,10 +9,7 @@ import ioc.IContainer;
 import tms.exec.service.BaseService;
 import tms.exec.service.impl.util.ProductUtil;
 import tms.exec.service.impl.util.ShopUtil;
-import tms.model.entity.Commodity;
-import tms.model.entity.Product;
-import tms.model.entity.Shop;
-import tms.model.entity.User;
+import tms.model.entity.*;
 import tms.shared.Errors;
 import tms.shared.Globals;
 import tms.shared.formatter.impl.CommodityFormatter;
@@ -161,7 +158,10 @@ public class CommodityService extends BaseService implements ICommodityService {
 			throw new ExecutionException(Errors.NoSuchProductId);
 		}
 
-		// TODO: pending order
+		var orderRepo = unitOfWork.getRepository(Order.class);
+		if (orderRepo.exists(x -> x.commodity.equals(commodity) && x.isActive())) {
+			throw new ExecutionException(Errors.UnfinishedOrderExists);
+		}
 
 		// This product field is unique among all commodities that refer to it.
 		commodity.product.status = Product.Status.Unavailable;
@@ -203,7 +203,10 @@ public class CommodityService extends BaseService implements ICommodityService {
 			throw new ExecutionException(Errors.NoSuchProductId);
 		}
 
-		// TODO: pending order
+		var orderRepo = unitOfWork.getRepository(Order.class);
+		if (orderRepo.exists(x -> x.commodity.equals(commodity) && x.isActive())) {
+			throw new ExecutionException(Errors.UnfinishedOrderExists);
+		}
 
 		// do not change product status
 		repo.delete(commodity);

@@ -38,6 +38,10 @@ public class Order {
 		return new Order(shop, commodity, buyer, quantity);
 	}
 
+	public boolean isActive() {
+		return this.status == Status.Pending;
+	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof Order other) {

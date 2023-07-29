@@ -7,6 +7,7 @@ package tms.exec.service.impl;
 import host.exec.ExecutionException;
 import ioc.IContainer;
 import tms.exec.service.BaseService;
+import tms.model.entity.Order;
 import tms.model.entity.Shop;
 import tms.model.entity.User;
 import tms.shared.Errors;
@@ -120,7 +121,10 @@ public class ShopService extends BaseService implements IShopService {
 			throw new ExecutionException(Errors.NoSuchShopId);
 		}
 
-		// TODO: pending order
+		var orderRepo = unitOfWork.getRepository(Order.class);
+		if (orderRepo.exists(x -> x.shop.equals(shop) && x.isActive())) {
+			throw new ExecutionException(Errors.UnfinishedOrderExists);
+		}
 
 		shop.status = Shop.Status.Closed;
 

@@ -39,8 +39,8 @@ public class Shop {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (obj instanceof Shop) {
-			return this.id == ((Shop) obj).id;
+		if (obj instanceof Shop other) {
+			return this.id == other.id;
 		}
 		return false;
 	}

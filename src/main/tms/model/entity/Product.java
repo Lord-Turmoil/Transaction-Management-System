@@ -47,6 +47,14 @@ public class Product {
 		return "C-" + id;
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof Product other) {
+			return this.id == other.id;
+		}
+		return false;
+	}
+
 	public enum Status {
 		Available,
 		Unavailable

@@ -20,4 +20,12 @@ public class Commodity {
 		product.totalStock += stock;
 		return new Commodity(shop, stock, product);
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof Commodity other) {
+			return this.shop.equals(other.shop) && this.product.equals(other.product);
+		}
+		return false;
+	}
 }

@@ -29,5 +29,7 @@ public class Errors {
 	public static final String IllegalProductCount = "Illegal commodity count";
 	public static final String NoSuchProductId = "Commodity id not exists";
 
+	public static final String UnfinishedOrderExists = "Please process order for shop";
+
 	private Errors() {}
 }

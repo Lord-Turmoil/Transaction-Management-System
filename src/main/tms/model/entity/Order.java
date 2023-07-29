@@ -6,13 +6,14 @@ package tms.model.entity;
 
 public class Order {
 	private static int nextId = 1;
-	int id;
-	Status status;
-	Shop shop;
-	Commodity commodity;
+	public int id;
+	public Status status;
+	public Shop shop;
+	public Commodity commodity;
 	// seller can be deducted by shop or commodity
-	User buyer;
-	int quantity;
+	public User buyer;
+	public int quantity;
+
 	private Order(Shop shop, Commodity commodity, User buyer, int quantity) {
 		this.id = getNextId();
 		this.status = Status.Pending;
@@ -37,9 +38,15 @@ public class Order {
 		return new Order(shop, commodity, buyer, quantity);
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof Order other) {
+			return this.id == other.id;
+		}
+		return false;
+	}
+
 	public enum Status {
-		Pending,
-		Canceled,
-		Finished
+		Pending, Canceled, Finished
 	}
 }

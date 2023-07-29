@@ -20,7 +20,7 @@ import java.util.List;
 public class RegisterCommand extends BaseCommand {
 	private final IAccountService service;
 
-	public RegisterCommand(IAccountService service, IContainer container) {
+	public RegisterCommand(IContainer container, IAccountService service) {
 		super(container);
 		this.service = service;
 	}

@@ -16,14 +16,14 @@ import java.util.List;
 public class ExitCommand extends BaseCommand {
 	private final IExitService service;
 
-	public ExitCommand(IExitService service, IContainer container) {
+	public ExitCommand(IContainer container, IExitService service) {
 		super(container);
 		this.service = service;
 	}
 
 	@Override
 	public void execute(List<String> args) throws ExecutionException, TerminationException {
-		if (args.size() > 0) {
+		if (!args.isEmpty()) {
 			throw new ExecutionException(Errors.IllegalArgumentCount);
 		}
 		service.exit();

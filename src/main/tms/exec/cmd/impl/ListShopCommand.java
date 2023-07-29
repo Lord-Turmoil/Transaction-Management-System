@@ -16,7 +16,7 @@ import java.util.List;
 public class ListShopCommand extends BaseCommand {
 	private final IShopService service;
 
-	public ListShopCommand(IShopService service, IContainer container) {
+	public ListShopCommand(IContainer container, IShopService service) {
 		super(container);
 		this.service = service;
 	}

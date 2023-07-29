@@ -17,7 +17,7 @@ import java.util.List;
 public class LoginCommand extends BaseCommand {
 	private final IAccountService service;
 
-	public LoginCommand(IAccountService service, IContainer container) {
+	public LoginCommand(IContainer container, IAccountService service) {
 		super(container);
 		this.service = service;
 	}

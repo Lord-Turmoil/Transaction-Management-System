@@ -60,8 +60,8 @@ public class CommandProvider implements IExecutableProvider {
 	private BaseCommand resolveExecutable(Class<? extends BaseCommand> cls, CommandArg arg) {
 		var service = resolveService(arg.serviceInterface);
 		try {
-			var ctor = cls.getConstructor(arg.serviceInterface, IContainer.class);
-			return ctor.newInstance(service, container);
+			var ctor = cls.getConstructor(IContainer.class, arg.serviceInterface);
+			return ctor.newInstance(container, service);
 		} catch (NoSuchMethodException e) {
 			throw new RuntimeException("Command constructor error");
 		} catch (InstantiationException | InvocationTargetException | IllegalAccessException e) {
@@ -69,7 +69,7 @@ public class CommandProvider implements IExecutableProvider {
 		}
 	}
 
-	static class CommandArg {
+	public static class CommandArg {
 		public Class<? extends BaseCommand> executableClass;
 		public Class<? extends IService> serviceInterface;
 

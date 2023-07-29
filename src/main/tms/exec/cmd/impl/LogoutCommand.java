@@ -16,14 +16,14 @@ import java.util.List;
 public class LogoutCommand extends BaseCommand {
 	private final IAccountService service;
 
-	public LogoutCommand(IAccountService service, IContainer container) {
+	public LogoutCommand(IContainer container, IAccountService service) {
 		super(container);
 		this.service = service;
 	}
 
 	@Override
 	public void execute(List<String> args) throws ExecutionException, TerminationException {
-		if (args.size() > 0) {
+		if (!args.isEmpty()) {
 			throw new ExecutionException(Errors.IllegalArgumentCount);
 		}
 		service.logout();

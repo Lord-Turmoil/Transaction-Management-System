@@ -16,7 +16,7 @@ import java.util.List;
 public class CancelShopCommand extends BaseCommand {
 	private final IShopService service;
 
-	public CancelShopCommand(IShopService service, IContainer container) {
+	public CancelShopCommand(IContainer container, IShopService service) {
 		super(container);
 		this.service = service;
 	}

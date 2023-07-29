@@ -21,7 +21,7 @@ import java.util.List;
 public class ReleaseCommodityCommand extends BaseCommand implements IExecutable {
 	private final ICommodityService service;
 
-	public ReleaseCommodityCommand(ICommodityService service, IContainer container) {
+	public ReleaseCommodityCommand(IContainer container, ICommodityService service) {
 		super(container);
 		this.service = service;
 	}

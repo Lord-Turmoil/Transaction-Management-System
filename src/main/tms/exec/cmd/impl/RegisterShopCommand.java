@@ -17,7 +17,7 @@ import java.util.List;
 public class RegisterShopCommand extends BaseCommand {
 	private final IShopService service;
 
-	public RegisterShopCommand(IShopService service, IContainer container) {
+	public RegisterShopCommand(IContainer container, IShopService service) {
 		super(container);
 		this.service = service;
 	}

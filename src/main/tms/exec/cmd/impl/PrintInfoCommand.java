@@ -16,7 +16,7 @@ import java.util.List;
 public class PrintInfoCommand extends BaseCommand {
 	private final IAccountService service;
 
-	public PrintInfoCommand(IAccountService service, IContainer container) {
+	public PrintInfoCommand(IContainer container, IAccountService service) {
 		super(container);
 		this.service = service;
 	}

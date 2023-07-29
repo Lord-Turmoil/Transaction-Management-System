@@ -26,4 +26,11 @@ public class ShopUtil {
 			throw new ExecutionException(Errors.IllegalShopId);
 		}
 	}
+
+	public static boolean hasAccessToShop(Shop shop, User user) {
+		if (shop == null || user == null) {
+			throw new IllegalArgumentException();
+		}
+		return shop.owner.equals(user) || (user.role == User.Role.Administrator);
+	}
 }

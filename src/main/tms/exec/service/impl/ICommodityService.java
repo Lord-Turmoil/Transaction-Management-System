@@ -20,5 +20,8 @@ public interface ICommodityService extends IService {
 
 	void listByShop(String shopIdString) throws ExecutionException;
 
+	void remove(String productIdString) throws ExecutionException;
+	void remove(String productIdString, String shopIdString) throws ExecutionException;
+
 	void search(String name) throws ExecutionException;
 }

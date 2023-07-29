@@ -138,6 +138,79 @@ public class CommodityService extends BaseService implements ICommodityService {
 		listCommodity(shop);
 	}
 
+	@Override
+	public void remove(String productIdString) throws ExecutionException {
+		var user = getCurrentUser();
+		if (user == null) {
+			throw new ExecutionException(Errors.NotLoggedIn);
+		}
+		if (user.role == User.Role.Customer) {
+			throw new ExecutionException(Errors.PermissionDenied);
+		}
+
+		int id;
+		try {
+			id = Product.parseId(productIdString);
+		} catch (NumberFormatException e) {
+			throw new ExecutionException(Errors.IllegalProductId, e);
+		}
+
+		var repo = unitOfWork.getRepository(Commodity.class);
+		var commodity = repo.find(x -> x.product.id == id);
+		if ((commodity == null) || !ProductUtil.hasAccessToCommodity(commodity, user)) {
+			throw new ExecutionException(Errors.NoSuchProductId);
+		}
+
+		// TODO: pending order
+
+		// This product field is unique among all commodities that refer to it.
+		commodity.product.status = Product.Status.Unavailable;
+		repo.delete(commodity);
+
+		printer.println("Remove commodity success");
+	}
+
+	@Override
+	public void remove(String productIdString, String shopIdString) throws ExecutionException {
+		var user = getCurrentUser();
+		if (user == null) {
+			throw new ExecutionException(Errors.NotLoggedIn);
+		}
+		if (user.role == User.Role.Customer) {
+			throw new ExecutionException(Errors.PermissionDenied);
+		}
+
+		int productId;
+		try {
+			productId = Product.parseId(productIdString);
+		} catch (NumberFormatException e) {
+			throw new ExecutionException(Errors.IllegalProductId);
+		}
+		int shopId;
+		try {
+			shopId = Shop.parseId(shopIdString);
+		} catch (NumberFormatException e) {
+			throw new ExecutionException(Errors.IllegalShopId);
+		}
+
+		var shop = unitOfWork.getRepository(Shop.class).find(x -> x.id == shopId);
+		if ((shop == null) || !ShopUtil.hasAccessToShop(shop, user)) {
+			throw new ExecutionException(Errors.NoSuchShopId);
+		}
+		var repo = unitOfWork.getRepository(Commodity.class);
+		var commodity = repo.find(x -> x.product.id == productId);
+		if ((commodity == null) || (commodity.shop.id != shopId) || !ProductUtil.hasAccessToCommodity(commodity, user)) {
+			throw new ExecutionException(Errors.NoSuchProductId);
+		}
+
+		// TODO: pending order
+
+		// do not change product status
+		repo.delete(commodity);
+
+		printer.println("Remove commodity success");
+	}
+
 	private void listCommodity() throws ExecutionException {
 		var shops = unitOfWork.getRepository(Shop.class).getAll(Comparator.comparingInt(x -> x.id));
 		for (var shop : shops) {

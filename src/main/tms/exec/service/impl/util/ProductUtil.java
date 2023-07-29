@@ -5,6 +5,7 @@
 package tms.exec.service.impl.util;
 
 import host.exec.ExecutionException;
+import tms.model.entity.Commodity;
 import tms.model.entity.Product;
 import tms.model.entity.User;
 import tms.shared.Errors;
@@ -43,5 +44,12 @@ public class ProductUtil {
 			throw new ExecutionException(Errors.IllegalProductPrice);
 		}
 		return new BigDecimal(priceString);
+	}
+
+	public static boolean hasAccessToCommodity(Commodity commodity, User user) {
+		if (commodity == null || user == null) {
+			throw new IllegalArgumentException();
+		}
+		return commodity.product.owner.equals(user) || (user.role == User.Role.Administrator);
 	}
 }

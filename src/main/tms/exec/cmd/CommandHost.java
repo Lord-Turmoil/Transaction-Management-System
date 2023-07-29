@@ -28,6 +28,7 @@ public class CommandHost {
 				.register("cancelShop", CancelShopCommand.class, IShopService.class);
 		provider.register("putCommodity", ReleaseCommodityCommand.class, ICommodityService.class)
 				.register("listCommodity", ListCommodityCommand.class, ICommodityService.class)
+				.register("removeCommodity", RemoveCommodityCommand.class, ICommodityService.class)
 				.register("searchCommodity", SearchCommodityCommand.class, ICommodityService.class);
 	}
 }

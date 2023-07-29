@@ -9,11 +9,7 @@ import host.exec.TerminationException;
 import ioc.IContainer;
 import tms.exec.cmd.BaseCommand;
 import tms.exec.service.impl.IAccountService;
-import tms.model.entity.User;
 import tms.shared.Errors;
-import tms.shared.validator.impl.IdValidator;
-import tms.shared.validator.impl.PasswordValidator;
-import tms.shared.validator.impl.UserNameValidator;
 
 import java.util.List;
 

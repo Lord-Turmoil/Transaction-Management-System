@@ -10,7 +10,6 @@ import ioc.IContainer;
 import tms.exec.cmd.BaseCommand;
 import tms.exec.service.impl.IShopService;
 import tms.shared.Errors;
-import tms.shared.validator.impl.ShopNameValidator;
 
 import java.util.List;
 

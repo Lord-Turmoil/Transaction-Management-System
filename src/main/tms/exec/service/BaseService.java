@@ -70,10 +70,7 @@ public class BaseService implements IService {
 
 	protected boolean checkPermission(User.Role role) throws ExecutionException {
 		var user = getRequiredUser();
-		if (user.role != role) {
-			return false;
-		}
-		return true;
+		return user.role == role;
 	}
 
 	protected boolean checkPermission(User.Role... roles) throws ExecutionException {

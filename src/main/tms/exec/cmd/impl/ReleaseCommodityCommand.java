@@ -10,12 +10,8 @@ import host.exec.TerminationException;
 import ioc.IContainer;
 import tms.exec.cmd.BaseCommand;
 import tms.exec.service.impl.ICommodityService;
-import tms.model.entity.Product;
-import tms.model.entity.Shop;
 import tms.shared.Errors;
-import tms.shared.validator.impl.PriceValidator;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 public class ReleaseCommodityCommand extends BaseCommand implements IExecutable {

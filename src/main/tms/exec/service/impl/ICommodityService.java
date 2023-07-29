@@ -7,8 +7,6 @@ package tms.exec.service.impl;
 import host.exec.ExecutionException;
 import tms.exec.service.IService;
 
-import java.math.BigDecimal;
-
 public interface ICommodityService extends IService {
 	void release(String shopIdString, String name, String priceString, String stockString) throws ExecutionException;
 
@@ -21,6 +19,7 @@ public interface ICommodityService extends IService {
 	void listByShop(String shopIdString) throws ExecutionException;
 
 	void remove(String productIdString) throws ExecutionException;
+
 	void remove(String productIdString, String shopIdString) throws ExecutionException;
 
 	void search(String name) throws ExecutionException;

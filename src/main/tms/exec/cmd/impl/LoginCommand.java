@@ -10,7 +10,6 @@ import ioc.IContainer;
 import tms.exec.cmd.BaseCommand;
 import tms.exec.service.impl.IAccountService;
 import tms.shared.Errors;
-import tms.shared.validator.impl.IdValidator;
 
 import java.util.List;
 

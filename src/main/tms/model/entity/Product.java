@@ -32,13 +32,6 @@ public class Product {
 		return nextId++;
 	}
 
-	public static int parseId(String value) throws NumberFormatException {
-		if (!value.matches("^C-\\d+$")) {
-			throw new NumberFormatException("Bad prefix");
-		}
-		return Integer.parseInt(value.substring(2));
-	}
-
 	public static Product create(String name, BigDecimal price, User owner) {
 		return new Product(name, price, owner);
 	}

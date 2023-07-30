@@ -27,13 +27,6 @@ public class Order {
 		return nextId++;
 	}
 
-	public static int parseId(String value) throws NumberFormatException {
-		if (!value.matches("^O-\\d+$")) {
-			throw new NumberFormatException("Bad prefix");
-		}
-		return Integer.parseInt(value.substring(2));
-	}
-
 	public static Order create(Shop shop, Commodity commodity, User buyer, int quantity) {
 		return new Order(shop, commodity, buyer, quantity);
 	}

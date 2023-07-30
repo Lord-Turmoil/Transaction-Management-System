@@ -22,7 +22,7 @@ public class ShopUtil {
 
 	public static int parseShopId(String shopIdString) throws ExecutionException {
 		try {
-			return Shop.parseId(shopIdString);
+			return parseId(shopIdString);
 		} catch (NumberFormatException e) {
 			throw new ExecutionException(Errors.IllegalShopId);
 		}
@@ -41,5 +41,12 @@ public class ShopUtil {
 			throw new IllegalArgumentException();
 		}
 		return shop.owner.equals(user) || (user.role == User.Role.Administrator);
+	}
+
+	public static int parseId(String value) throws NumberFormatException {
+		if (!value.matches("^S-\\d+$")) {
+			throw new NumberFormatException("Bad prefix");
+		}
+		return Integer.parseInt(value.substring(2));
 	}
 }

@@ -27,7 +27,7 @@ public class ProductUtil {
 
 	public static int parseProductId(String productIdString) throws ExecutionException {
 		try {
-			return Product.parseId(productIdString);
+			return parseId(productIdString);
 		} catch (NumberFormatException e) {
 			throw new ExecutionException(Errors.IllegalProductId);
 		}
@@ -73,5 +73,12 @@ public class ProductUtil {
 
 	public static Commodity getCommodity(IRepository<Commodity> repo, Shop shop, Product product) throws ExecutionException {
 		return getCommodity(repo, shop.id, product.id);
+	}
+
+	public static int parseId(String value) throws NumberFormatException {
+		if (!value.matches("^C-\\d+$")) {
+			throw new NumberFormatException("Bad prefix");
+		}
+		return Integer.parseInt(value.substring(2));
 	}
 }

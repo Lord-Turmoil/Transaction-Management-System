@@ -22,13 +22,6 @@ public class Shop {
 		return nextId++;
 	}
 
-	public static int parseId(String value) throws NumberFormatException {
-		if (!value.matches("^S-\\d+$")) {
-			throw new NumberFormatException("Bad prefix");
-		}
-		return Integer.parseInt(value.substring(2));
-	}
-
 	public static Shop create(String name, User owner) {
 		return new Shop(name, owner);
 	}

@@ -9,9 +9,14 @@ import tms.exec.service.IService;
 
 public interface IOrderService extends IService {
 	void purchase(String shopIdString, String productIdString, int quantity) throws ExecutionException;
+
 	void cancel(String orderIdString) throws ExecutionException;
+
 	void confirm(String orderIdString) throws ExecutionException;
 
+	void list() throws ExecutionException;
+
 	void listById(String id) throws ExecutionException;
+
 	void listByShop(String shopIdString) throws ExecutionException;
 }

@@ -75,7 +75,7 @@ public class ProductUtil {
 		return getCommodity(repo, shop.id, product.id);
 	}
 
-	public static int parseId(String value) throws NumberFormatException {
+	private static int parseId(String value) throws NumberFormatException {
 		if (!value.matches("^C-\\d+$")) {
 			throw new NumberFormatException("Bad prefix");
 		}

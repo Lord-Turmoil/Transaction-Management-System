@@ -64,9 +64,7 @@ public class ShopService extends BaseService implements IShopService {
 
 	@Override
 	public void list(String id) throws ExecutionException {
-		if (!checkPermission(User.Role.Administrator)) {
-			throw new ExecutionException(Errors.PermissionDenied);
-		}
+		ensurePermission(User.Role.Administrator);
 
 		if (!new IdValidator().check(id)) {
 			throw new ExecutionException(Errors.IllegalId);

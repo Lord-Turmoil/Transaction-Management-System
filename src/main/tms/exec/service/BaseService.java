@@ -75,9 +75,18 @@ public class BaseService implements IService {
 
 	protected boolean checkPermission(User.Role... roles) throws ExecutionException {
 		var user = getRequiredUser();
-		if (Arrays.stream(roles).noneMatch(x -> x == user.role)) {
+		return Arrays.stream(roles).anyMatch(x -> x == user.role);
+	}
+
+	protected void ensurePermission(User.Role role) throws ExecutionException {
+		if (!checkPermission(role)) {
 			throw new ExecutionException(Errors.PermissionDenied);
 		}
-		return true;
+	}
+
+	protected void ensurePermission(User.Role... roles) throws ExecutionException {
+		if (!checkPermission(roles)) {
+			throw new ExecutionException(Errors.PermissionDenied);
+		}
 	}
 }

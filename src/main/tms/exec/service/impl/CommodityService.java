@@ -108,9 +108,7 @@ public class CommodityService extends BaseService implements ICommodityService {
 
 	@Override
 	public void listById(String id) throws ExecutionException {
-		if (!checkPermission(User.Role.Administrator)) {
-			throw new ExecutionException(Errors.PermissionDenied);
-		}
+		ensurePermission(User.Role.Administrator);
 
 		if (!new IdValidator().check(id)) {
 			throw new ExecutionException(Errors.IllegalId);

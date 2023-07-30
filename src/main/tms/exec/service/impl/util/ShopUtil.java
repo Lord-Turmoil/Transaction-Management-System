@@ -43,7 +43,7 @@ public class ShopUtil {
 		return shop.owner.equals(user) || (user.role == User.Role.Administrator);
 	}
 
-	public static int parseId(String value) throws NumberFormatException {
+	private static int parseId(String value) throws NumberFormatException {
 		if (!value.matches("^S-\\d+$")) {
 			throw new NumberFormatException("Bad prefix");
 		}

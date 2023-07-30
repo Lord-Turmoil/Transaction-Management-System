@@ -16,6 +16,7 @@ import java.util.List;
 
 public class CancelOrderCommand extends BaseCommand implements IExecutable {
 	private final IOrderService service;
+
 	public CancelOrderCommand(IContainer container, IOrderService service) {
 		super(container);
 		this.service = service;

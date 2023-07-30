@@ -16,10 +16,14 @@ import tms.model.entity.Order;
 import tms.model.entity.Shop;
 import tms.model.entity.User;
 import tms.shared.Errors;
+import tms.shared.formatter.IFormatter;
+import tms.shared.formatter.impl.OrderAdminFormatter;
+import tms.shared.formatter.impl.OrderFormatter;
+import tms.shared.formatter.impl.PrintHandler;
 import tms.shared.validator.impl.IdValidator;
 
+import java.util.Collection;
 import java.util.Comparator;
-import java.util.Currency;
 import java.util.List;
 import java.util.function.Predicate;
 
@@ -106,9 +110,7 @@ public class OrderService extends BaseService implements IOrderService {
 		if (!shop.owner.equals(user) && user.role != User.Role.Administrator) {
 			throw new ExecutionException(Errors.NoSuchShopId);
 		}
-		var orders = unitOfWork.getRepository(Order.class).findAll(
-				x -> x.shop.equals(shop),
-				Comparator.comparingInt(x -> x.id));
+		var orders = unitOfWork.getRepository(Order.class).findAll(x -> x.shop.equals(shop), Comparator.comparingInt(x -> x.id));
 		listOrders(orders, user);
 	}
 
@@ -121,9 +123,14 @@ public class OrderService extends BaseService implements IOrderService {
 		return unitOfWork.getRepository(Order.class).findAll(predicate, Comparator.comparingInt(x -> x.id));
 	}
 
-	private void listOrders(List<Order> orders, User initiator) {
+	private void listOrders(Collection<Order> orders, User initiator) {
 		if (orders.isEmpty()) {
 			printer.println("Order not exists");
 		}
+		IFormatter formatter = switch (initiator.role) {
+			case Customer, Merchant -> new OrderFormatter();
+			case Administrator -> new OrderAdminFormatter();
+		};
+		new PrintHandler(printer).print(orders, formatter);
 	}
 }

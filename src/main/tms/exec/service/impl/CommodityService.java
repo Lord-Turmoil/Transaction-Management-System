@@ -132,8 +132,8 @@ public class CommodityService extends BaseService implements ICommodityService {
 		var user = getRequiredUser();
 
 		int shopId = ShopUtil.parseShopId(shopIdString);
-		var shop = unitOfWork.getRepository(Shop.class).find(x -> x.id == shopId);
-		if (shop == null || shop.status == Shop.Status.Closed) {
+		var shop = ShopUtil.getShop(unitOfWork.getRepository(Shop.class), shopId);
+		if (shop.status == Shop.Status.Closed) {
 			throw new ExecutionException(Errors.NoSuchShopId);
 		}
 
@@ -155,20 +155,19 @@ public class CommodityService extends BaseService implements ICommodityService {
 		}
 
 		int productId = ProductUtil.parseProductId(productIdString);
-		var repo = unitOfWork.getRepository(Commodity.class);
-		var commodity = repo.find(x -> x.product.id == productId);
-		if ((commodity == null) || !ProductUtil.hasAccessToCommodity(commodity, user)) {
+		var product = ProductUtil.getProduct(unitOfWork.getRepository(Product.class), productId);
+		if (!product.owner.equals(user)) {
 			throw new ExecutionException(Errors.NoSuchProductId);
 		}
 
 		var orderRepo = unitOfWork.getRepository(Order.class);
-		if (orderRepo.exists(x -> x.commodity.equals(commodity) && x.isActive())) {
+		if (orderRepo.exists(x -> x.commodity.product.id == productId && x.isActive())) {
 			throw new ExecutionException(Errors.UnfinishedOrderExists);
 		}
 
 		// This product field is unique among all commodities that refer to it.
-		commodity.product.status = Product.Status.Unavailable;
-		repo.delete(commodity);
+		product.status = Product.Status.Unavailable;
+		unitOfWork.getRepository(Commodity.class).delete(x -> x.product.equals(product));
 
 		printer.println("Remove commodity success");
 	}
@@ -186,13 +185,14 @@ public class CommodityService extends BaseService implements ICommodityService {
 		int productId = ProductUtil.parseProductId(productIdString);
 		int shopId = ShopUtil.parseShopId(shopIdString);
 
-		var shop = unitOfWork.getRepository(Shop.class).find(x -> x.id == shopId);
-		if ((shop == null) || !ShopUtil.hasAccessToShop(shop, user)) {
+		var shop = ShopUtil.getShop(unitOfWork.getRepository(Shop.class), shopId);
+		if (!ShopUtil.hasAccessToShop(shop, user)) {
 			throw new ExecutionException(Errors.NoSuchShopId);
 		}
+
 		var repo = unitOfWork.getRepository(Commodity.class);
-		var commodity = repo.find(x -> x.product.id == productId);
-		if ((commodity == null) || (commodity.shop.id != shopId) || !ProductUtil.hasAccessToCommodity(commodity, user)) {
+		var commodity = ProductUtil.getCommodity(repo, shopId, productId);
+		if (!ProductUtil.hasAccessToCommodity(commodity, user)) {
 			throw new ExecutionException(Errors.NoSuchProductId);
 		}
 

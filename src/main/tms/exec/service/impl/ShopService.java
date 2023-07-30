@@ -109,8 +109,8 @@ public class ShopService extends BaseService implements IShopService {
 		var user = getRequiredUser(User.Role.Merchant, User.Role.Administrator);
 
 		int shopId = ShopUtil.parseShopId(shopIdString);
-		var shop = unitOfWork.getRepository(Shop.class).find(x -> x.id == shopId);
-		if (shop == null || shop.status == Shop.Status.Closed) {
+		var shop = ShopUtil.getShop(unitOfWork.getRepository(Shop.class), shopId);
+		if (shop.status == Shop.Status.Closed) {
 			throw new ExecutionException(Errors.NoSuchShopId);
 		}
 		if (user.role == User.Role.Merchant && !shop.owner.equals(user)) {

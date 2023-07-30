@@ -8,6 +8,7 @@ import host.exec.ExecutionException;
 import tms.model.entity.Shop;
 import tms.model.entity.User;
 import tms.shared.Errors;
+import uow.IRepository;
 
 public class ShopUtil {
 	private ShopUtil() {}
@@ -25,6 +26,14 @@ public class ShopUtil {
 		} catch (NumberFormatException e) {
 			throw new ExecutionException(Errors.IllegalShopId);
 		}
+	}
+
+	public static Shop getShop(IRepository<Shop> repo, int shopId) throws ExecutionException {
+		var shop = repo.find(x -> x.id == shopId);
+		if (shop == null) {
+			throw new ExecutionException(Errors.NoSuchShopId);
+		}
+		return shop;
 	}
 
 	public static boolean hasAccessToShop(Shop shop, User user) {

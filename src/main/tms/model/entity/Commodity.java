@@ -6,8 +6,8 @@ package tms.model.entity;
 
 public class Commodity {
 	public Shop shop;
-	public int stock;
 	public Product product;
+	private int stock;
 
 	private Commodity(Shop shop, int stock, Product product) {
 		this.shop = shop;
@@ -19,6 +19,15 @@ public class Commodity {
 	public static Commodity create(Shop shop, int stock, Product product) {
 		product.totalStock += stock;
 		return new Commodity(shop, stock, product);
+	}
+
+	public int getStock() {
+		return stock;
+	}
+
+	public void updateStock(int stock) {
+		this.stock += stock;
+		this.product.totalStock += stock;
 	}
 
 	@Override

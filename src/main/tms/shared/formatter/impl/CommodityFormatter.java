@@ -27,6 +27,6 @@ public class CommodityFormatter implements IFormatter {
 				commodity.product.getId() + " " +
 				commodity.product.name + " " +
 				format.format(commodity.product.price) + "yuan " +
-				commodity.stock;
+				commodity.getStock();
 	}
 }

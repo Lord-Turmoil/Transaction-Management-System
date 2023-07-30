@@ -80,7 +80,16 @@ public class CommodityService extends BaseService implements ICommodityService {
 			throw new ExecutionException(Errors.IllegalProductCount);
 		}
 
-		var commodity = Commodity.create(shop, stock, product);
+		// find existing commodity in this shop
+		var repo = unitOfWork.getRepository(Commodity.class);
+		var commodity = repo.find(x -> x.shop.equals(shop) && x.product.equals(product));
+		if (commodity == null) {
+			commodity = Commodity.create(shop, stock, product);
+			repo.add(commodity);
+		} else {
+			commodity.updateStock(stock);
+		}
+
 		unitOfWork.getRepository(Commodity.class).add(commodity);
 
 		printer.println("Put commodity success");
@@ -247,7 +256,7 @@ public class CommodityService extends BaseService implements ICommodityService {
 		} else {
 			commodities = repo.findAll(x -> x.product.name.equals(name), orderBy);
 		}
-		commodities.removeIf(x -> x.stock == 0);
+		commodities.removeIf(x -> x.getStock() == 0);
 		if (commodities.isEmpty()) {
 			printer.println("Commodity not exists");
 		} else {

@@ -29,12 +29,13 @@ public class OrderService extends BaseService implements IOrderService {
 	}
 
 	@Override
-	public void purchase(String shopIdString, String productIdString, int quantity) throws ExecutionException {
+	public void purchase(String shopIdString, String productIdString, String quantityString) throws ExecutionException {
 		var user = getRequiredUser(User.Role.Customer);
 		int shopId = ShopUtil.parseShopId(shopIdString);
 		var shop = ShopUtil.getShop(unitOfWork.getRepository(Shop.class), shopId);
 		int productId = ProductUtil.parseProductId(productIdString);
 		var commodity = ProductUtil.getCommodity(unitOfWork.getRepository(Commodity.class), shopId, productId);
+		int quantity = OrderUtil.parseBuyCount(quantityString);
 		if (quantity > commodity.getStock()) {
 			throw new ExecutionException(Errors.IllegalBuyCount);
 		}

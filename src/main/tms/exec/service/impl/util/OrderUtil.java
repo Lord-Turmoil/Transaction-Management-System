@@ -7,6 +7,7 @@ package tms.exec.service.impl.util;
 import host.exec.ExecutionException;
 import tms.model.entity.Order;
 import tms.shared.Errors;
+import tms.shared.validator.impl.NumberValidator;
 import uow.IRepository;
 
 public class OrderUtil {
@@ -41,5 +42,16 @@ public class OrderUtil {
 			throw new ExecutionException(Errors.NoSuchOrderId);
 		}
 		return order;
+	}
+
+	public static int parseBuyCount(String quantityString) throws ExecutionException {
+		if (!new NumberValidator().check(quantityString)) {
+			throw new ExecutionException(Errors.IllegalBuyCount);
+		}
+		try {
+			return Integer.parseInt(quantityString);
+		} catch (NumberFormatException e) {
+			throw new ExecutionException(Errors.IllegalBuyCount, e);
+		}
 	}
 }

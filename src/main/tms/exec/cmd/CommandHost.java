@@ -5,10 +5,7 @@
 package tms.exec.cmd;
 
 import tms.exec.cmd.impl.*;
-import tms.exec.service.impl.IAccountService;
-import tms.exec.service.impl.ICommodityService;
-import tms.exec.service.impl.IExitService;
-import tms.exec.service.impl.IShopService;
+import tms.exec.service.impl.*;
 
 /**
  * To register all classes.
@@ -30,5 +27,9 @@ public class CommandHost {
 				.register("listCommodity", ListCommodityCommand.class, ICommodityService.class)
 				.register("removeCommodity", RemoveCommodityCommand.class, ICommodityService.class)
 				.register("searchCommodity", SearchCommodityCommand.class, ICommodityService.class);
+		provider.register("buyCommodity", PurchaseCommodityCommand.class, IOrderService.class)
+				.register("cancelOrder", CancelOrderCommand.class, IOrderService.class)
+				.register("finishOrder", ConfirmOrderCommand.class, IOrderService.class)
+				.register("listOrder", ListOrderCommand.class, IOrderService.class);
 	}
 }

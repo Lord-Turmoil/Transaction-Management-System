@@ -8,7 +8,7 @@ import host.exec.ExecutionException;
 import tms.exec.service.IService;
 
 public interface IOrderService extends IService {
-	void purchase(String shopIdString, String productIdString, int quantity) throws ExecutionException;
+	void purchase(String shopIdString, String productIdString, String quantityString) throws ExecutionException;
 
 	void cancel(String orderIdString) throws ExecutionException;
 

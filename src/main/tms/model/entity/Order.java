@@ -38,6 +38,10 @@ public class Order {
 		return new Order(shop, commodity, buyer, quantity);
 	}
 
+	public String getId() {
+		return "O-" + id;
+	}
+
 	public boolean isActive() {
 		return this.status == Status.Pending;
 	}

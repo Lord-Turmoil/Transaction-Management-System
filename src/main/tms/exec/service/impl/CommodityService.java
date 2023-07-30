@@ -54,7 +54,7 @@ public class CommodityService extends BaseService implements ICommodityService {
 		var commodity = Commodity.create(shop, stock, product);
 		unitOfWork.getRepository(Commodity.class).add(commodity);
 
-		printer.println("Put commodity success");
+		printer.println("Put commodity success (commodityId: " + commodity.product.getId() + ")");
 	}
 
 	@Override
@@ -92,7 +92,7 @@ public class CommodityService extends BaseService implements ICommodityService {
 
 		unitOfWork.getRepository(Commodity.class).add(commodity);
 
-		printer.println("Put commodity success");
+		printer.println("Put commodity success (commodityId: " + commodity.product.getId() + ")");
 	}
 
 	@Override

@@ -43,9 +43,10 @@ public class ShopService extends BaseService implements IShopService {
 			throw new ExecutionException(Errors.DuplicatedShopName);
 		}
 
-		repo.add(Shop.create(name, user));
+		var shop = Shop.create(name, user);
+		repo.add(shop);
 
-		printer.println("Register shop success");
+		printer.println("Register shop success (shopID:" + shop.getId() + ")");
 	}
 
 	@Override

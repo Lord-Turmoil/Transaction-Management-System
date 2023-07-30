@@ -154,15 +154,9 @@ public class CommodityService extends BaseService implements ICommodityService {
 			throw new ExecutionException(Errors.PermissionDenied);
 		}
 
-		int id;
-		try {
-			id = Product.parseId(productIdString);
-		} catch (NumberFormatException e) {
-			throw new ExecutionException(Errors.IllegalProductId, e);
-		}
-
+		int productId = ProductUtil.parseProductId(productIdString);
 		var repo = unitOfWork.getRepository(Commodity.class);
-		var commodity = repo.find(x -> x.product.id == id);
+		var commodity = repo.find(x -> x.product.id == productId);
 		if ((commodity == null) || !ProductUtil.hasAccessToCommodity(commodity, user)) {
 			throw new ExecutionException(Errors.NoSuchProductId);
 		}
@@ -189,18 +183,8 @@ public class CommodityService extends BaseService implements ICommodityService {
 			throw new ExecutionException(Errors.PermissionDenied);
 		}
 
-		int productId;
-		try {
-			productId = Product.parseId(productIdString);
-		} catch (NumberFormatException e) {
-			throw new ExecutionException(Errors.IllegalProductId);
-		}
-		int shopId;
-		try {
-			shopId = Shop.parseId(shopIdString);
-		} catch (NumberFormatException e) {
-			throw new ExecutionException(Errors.IllegalShopId);
-		}
+		int productId = ProductUtil.parseProductId(productIdString);
+		int shopId = ShopUtil.parseShopId(shopIdString);
 
 		var shop = unitOfWork.getRepository(Shop.class).find(x -> x.id == shopId);
 		if ((shop == null) || !ShopUtil.hasAccessToShop(shop, user)) {

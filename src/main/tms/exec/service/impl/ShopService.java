@@ -7,6 +7,7 @@ package tms.exec.service.impl;
 import host.exec.ExecutionException;
 import ioc.IContainer;
 import tms.exec.service.BaseService;
+import tms.exec.service.impl.util.ShopUtil;
 import tms.model.entity.Order;
 import tms.model.entity.Shop;
 import tms.model.entity.User;
@@ -107,13 +108,8 @@ public class ShopService extends BaseService implements IShopService {
 	public void cancel(String shopIdString) throws ExecutionException {
 		var user = getRequiredUser(User.Role.Merchant, User.Role.Administrator);
 
-		int id;
-		try {
-			id = Shop.parseId(shopIdString);
-		} catch (NumberFormatException e) {
-			throw new ExecutionException(Errors.IllegalShopId, e);
-		}
-		var shop = unitOfWork.getRepository(Shop.class).find(x -> x.id == id);
+		int shopId = ShopUtil.parseShopId(shopIdString);
+		var shop = unitOfWork.getRepository(Shop.class).find(x -> x.id == shopId);
 		if (shop == null || shop.status == Shop.Status.Closed) {
 			throw new ExecutionException(Errors.NoSuchShopId);
 		}

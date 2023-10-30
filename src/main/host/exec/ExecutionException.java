@@ -5,18 +5,28 @@
 package host.exec;
 
 public class ExecutionException extends Exception {
-	public ExecutionException() {
-	}
+    private boolean termination = false;
 
-	public ExecutionException(String message) {
-		super(message);
-	}
+    public ExecutionException() {
+    }
 
-	public ExecutionException(Throwable cause) {
-		super(cause);
-	}
+    public ExecutionException(boolean termination) {
+        this.termination = termination;
+    }
 
-	public ExecutionException(String message, Throwable cause) {
-		super(message, cause);
-	}
+    public ExecutionException(String message) {
+        super(message);
+    }
+
+    public ExecutionException(Throwable cause) {
+        super(cause);
+    }
+
+    public ExecutionException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
+    public boolean isTermination() {
+        return termination;
+    }
 }

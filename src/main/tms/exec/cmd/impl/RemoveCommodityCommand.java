@@ -6,7 +6,6 @@ package tms.exec.cmd.impl;
 
 import host.exec.ExecutionException;
 import host.exec.IExecutable;
-import host.exec.TerminationException;
 import ioc.IContainer;
 import tms.exec.cmd.BaseCommand;
 import tms.exec.service.impl.ICommodityService;
@@ -15,19 +14,19 @@ import tms.shared.Errors;
 import java.util.List;
 
 public class RemoveCommodityCommand extends BaseCommand implements IExecutable {
-	private final ICommodityService service;
+    private final ICommodityService service;
 
-	public RemoveCommodityCommand(IContainer container, ICommodityService service) {
-		super(container);
-		this.service = service;
-	}
+    public RemoveCommodityCommand(IContainer container, ICommodityService service) {
+        super(container);
+        this.service = service;
+    }
 
-	@Override
-	public void execute(List<String> args) throws ExecutionException, TerminationException {
-		switch (args.size()) {
-			case 1 -> service.remove(args.get(0));
-			case 2 -> service.remove(args.get(0), args.get(1));
-			default -> throw new ExecutionException(Errors.IllegalArgumentCount);
-		}
-	}
+    @Override
+    public void execute(List<String> args) throws ExecutionException {
+        switch (args.size()) {
+            case 1 -> service.remove(args.get(0));
+            case 2 -> service.remove(args.get(0), args.get(1));
+            default -> throw new ExecutionException(Errors.IllegalArgumentCount);
+        }
+    }
 }

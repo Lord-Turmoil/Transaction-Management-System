@@ -23,6 +23,6 @@ public class Startup {
 	}
 
 	public void run() {
-		Container.getGlobal().resolve(ConsoleHost.class).run();
+		container.resolve(ConsoleHost.class).run();
 	}
 }

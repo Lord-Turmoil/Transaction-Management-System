@@ -9,7 +9,7 @@ public class UnitOfWorkTest {
         }
     }
 
-    public static void main(String args[]) {
+    public static void main(String[] args) {
         Container container = Container.getGlobal();
 
         // database context

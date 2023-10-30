@@ -7,5 +7,5 @@ package host.exec;
 import java.util.List;
 
 public interface IExecutable {
-	void execute(List<String> args) throws ExecutionException, TerminationException;
+	void execute(List<String> args) throws ExecutionException;
 }

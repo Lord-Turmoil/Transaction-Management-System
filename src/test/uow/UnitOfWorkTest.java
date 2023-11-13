@@ -3,12 +3,6 @@ package uow;
 import ioc.Container;
 
 public class UnitOfWorkTest {
-    static class StringRepository extends Repository<String> {
-        public StringRepository(CustomContext dbContext) {
-            super(dbContext, "strings");
-        }
-    }
-
     public static void main(String[] args) {
         Container container = Container.getGlobal();
 
@@ -33,5 +27,11 @@ public class UnitOfWorkTest {
         System.out.println(repo);
         repo.delete(x -> x.equals("There"));
         System.out.println(repo.getAll());
+    }
+
+    static class StringRepository extends Repository<String> {
+        public StringRepository(CustomContext dbContext) {
+            super(dbContext, "strings");
+        }
     }
 }

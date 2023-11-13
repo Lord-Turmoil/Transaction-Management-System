@@ -9,7 +9,7 @@ import tms.model.entity.Shop;
 import uow.Repository;
 
 public class ShopRepository extends Repository<Shop> {
-	public ShopRepository(TMSContext dbContext) {
-		super(dbContext, TMSContext.ShopTable);
-	}
+    public ShopRepository(TMSContext dbContext) {
+        super(dbContext, TMSContext.ShopTable);
+    }
 }

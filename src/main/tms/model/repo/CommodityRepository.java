@@ -9,7 +9,7 @@ import tms.model.entity.Commodity;
 import uow.Repository;
 
 public class CommodityRepository extends Repository<Commodity> {
-	public CommodityRepository(TMSContext dbContext) {
-		super(dbContext, TMSContext.CommodityTable);
-	}
+    public CommodityRepository(TMSContext dbContext) {
+        super(dbContext, TMSContext.CommodityTable);
+    }
 }

@@ -11,22 +11,22 @@ import java.io.PrintStream;
 import java.util.Collection;
 
 public class PrintHandler implements IPrintHandler {
-	private final PrintStream printer;
+    private final PrintStream printer;
 
-	public PrintHandler(PrintStream printer) {
+    public PrintHandler(PrintStream printer) {
 
-		this.printer = printer;
-	}
+        this.printer = printer;
+    }
 
-	@Override
-	public <T> void print(T object, IFormatter formatter) {
-		this.printer.println(formatter.format(object));
-	}
+    @Override
+    public <T> void print(T object, IFormatter formatter) {
+        this.printer.println(formatter.format(object));
+    }
 
-	@Override
-	public <T> void print(Collection<T> objects, IFormatter formatter) {
-		for (var obj : objects) {
-			print(obj, formatter);
-		}
-	}
+    @Override
+    public <T> void print(Collection<T> objects, IFormatter formatter) {
+        for (var obj : objects) {
+            print(obj, formatter);
+        }
+    }
 }

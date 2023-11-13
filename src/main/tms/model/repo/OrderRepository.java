@@ -9,7 +9,7 @@ import tms.model.entity.Order;
 import uow.Repository;
 
 public class OrderRepository extends Repository<Order> {
-	public OrderRepository(TMSContext dbContext) {
-		super(dbContext, TMSContext.OrderTable);
-	}
+    public OrderRepository(TMSContext dbContext) {
+        super(dbContext, TMSContext.OrderTable);
+    }
 }

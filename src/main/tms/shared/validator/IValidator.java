@@ -5,5 +5,5 @@
 package tms.shared.validator;
 
 public interface IValidator {
-	boolean check(String value);
+    boolean check(String value);
 }

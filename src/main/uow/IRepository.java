@@ -12,32 +12,32 @@ import java.util.List;
 import java.util.function.Predicate;
 
 public interface IRepository<TEntity> {
-	IRepository<TEntity> add(TEntity entity);
+    IRepository<TEntity> add(TEntity entity);
 
-	IRepository<TEntity> add(Collection<TEntity> entities);
-
-
-	IRepository<TEntity> delete(TEntity entity);
-
-	IRepository<TEntity> delete(Collection<TEntity> entities);
-
-	IRepository<TEntity> delete(Predicate<TEntity> predicate);
+    IRepository<TEntity> add(Collection<TEntity> entities);
 
 
-	boolean exists(Predicate<TEntity> predicate);
+    IRepository<TEntity> delete(TEntity entity);
+
+    IRepository<TEntity> delete(Collection<TEntity> entities);
+
+    IRepository<TEntity> delete(Predicate<TEntity> predicate);
 
 
-	TEntity find(Predicate<TEntity> predicate);
+    boolean exists(Predicate<TEntity> predicate);
 
-	List<TEntity> findAll(Predicate<TEntity> predicate);
 
-	List<TEntity> findAll(Predicate<TEntity> predicate, Comparator<TEntity> orderBy);
+    TEntity find(Predicate<TEntity> predicate);
 
-	TEntity get(Predicate<TEntity> predicate) throws NoSuchEntityException;
+    List<TEntity> findAll(Predicate<TEntity> predicate);
 
-	List<TEntity> getAll();
+    List<TEntity> findAll(Predicate<TEntity> predicate, Comparator<TEntity> orderBy);
 
-	List<TEntity> getAll(Comparator<TEntity> orderBy);
+    TEntity get(Predicate<TEntity> predicate) throws NoSuchEntityException;
 
-	int count(Predicate<TEntity> predicate);
+    List<TEntity> getAll();
+
+    List<TEntity> getAll(Comparator<TEntity> orderBy);
+
+    int count(Predicate<TEntity> predicate);
 }

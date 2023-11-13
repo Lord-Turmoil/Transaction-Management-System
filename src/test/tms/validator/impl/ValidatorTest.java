@@ -27,10 +27,10 @@ public class ValidatorTest {
         };
 
         for (var id : good) {
-            Assert.assertEquals(true, validator.check(id));
+            Assert.assertTrue(validator.check(id));
         }
         for (var id : bad) {
-            Assert.assertEquals(false, validator.check(id));
+            Assert.assertFalse(validator.check(id));
         }
     }
 
@@ -49,10 +49,10 @@ public class ValidatorTest {
         };
 
         for (var password : good) {
-            Assert.assertEquals(true, validator.check(password));
+            Assert.assertTrue(validator.check(password));
         }
         for (var password : bad) {
-            Assert.assertEquals(false, validator.check(password));
+            Assert.assertFalse(validator.check(password));
         }
     }
 }

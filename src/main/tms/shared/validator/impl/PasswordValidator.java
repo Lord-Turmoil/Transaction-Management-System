@@ -7,8 +7,8 @@ package tms.shared.validator.impl;
 import tms.shared.validator.IValidator;
 
 public class PasswordValidator implements IValidator {
-	@Override
-	public boolean check(String value) {
-		return value.matches("^[a-zA-Z](?=.*\\d)(?=.*[@_%$])([^\\s]){7,15}$");
-	}
+    @Override
+    public boolean check(String value) {
+        return value.matches("^[a-zA-Z](?=.*\\d)(?=.*[@_%$])([^\\s]){7,15}$");
+    }
 }
